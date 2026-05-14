@@ -181,7 +181,10 @@ body {
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ===== FILTER CHIPS ===== */
-.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
+.filters { 
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; 
+  max-width: 1200px; margin-left: auto; margin-right: auto;
+}
 .filter-chip {
   padding: 6px 16px; border-radius: 100px;
   border: 1px solid var(--border); background: var(--bg-glass);
@@ -202,18 +205,21 @@ body {
 /* ===== SATELLITE CARDS ===== */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+  gap: 1.5rem;
+  align-items: start; /* Prevents cards in the same row from stretching */
+  max-width: 1400px;
+  margin: 0 auto;
 }
 .sat-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
-  cursor: pointer;
   transition: var(--transition);
   position: relative;
   overflow: hidden;
+  height: max-content;
 }
 .sat-card::before {
   content: ''; position: absolute; left: 0; top: 0; bottom: 0;
@@ -286,14 +292,20 @@ body {
   border-radius: 3px; margin-right: 6px; vertical-align: middle;
 }
 
-.stac-section { margin-top: 1rem; }
-.stac-section h4 { font-size: 0.8rem; color: var(--accent-blue); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
-.stac-item {
-  display: flex; flex-direction: column; align-items: stretch; gap: 6px;
-  background: rgba(0,0,0,0.3); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 10px 12px;
-  margin-bottom: 8px; font-size: 0.8rem;
+.stac-section { margin-top: 1.5rem; }
+.stac-section h4 { font-size: 0.8rem; color: var(--accent-blue); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+.stac-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
 }
+.stac-item {
+  display: flex; flex-direction: column; align-items: stretch; gap: 8px;
+  background: var(--bg-inset); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 12px 14px;
+  font-size: 0.8rem; transition: var(--transition);
+}
+.stac-item:hover { border-color: var(--accent-blue); }
 .stac-item__provider { color: var(--text-secondary); font-weight: 500; }
 .stac-item__url {
   font-family: 'JetBrains Mono', monospace; color: var(--accent-green);
@@ -617,4 +629,34 @@ body {
   width: 12px;
   height: 12px;
   border-radius: 3px;
+}
+
+/* ===== LEARNING & KNOWLEDGE BASE ===== */
+.tutorial-body h3 {
+  font-size: 1.1rem;
+  color: var(--accent-blue);
+  margin: 1.5rem 0 0.75rem;
+}
+.tutorial-body h3:first-child { margin-top: 0; }
+.tutorial-body p { margin-bottom: 1rem; }
+.tutorial-body ul { padding-left: 1.5rem; margin-bottom: 1rem; }
+.tutorial-body li { margin-bottom: 0.5rem; }
+.tutorial-body pre {
+  background: var(--bg-primary);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border);
+}
+
+.kb-item { transition: var(--transition); }
+.kb-question:hover { background: rgba(255,255,255,0.03); }
+.kb-answer { animation: slideDown 0.3s ease-out; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

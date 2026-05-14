@@ -113,7 +113,97 @@ const INDICES=[
 {id:"ndyi",name:"Normalized Difference Yellowness Index",abbr:"NDYI",cat:"chlorophyll",formula:"(Green-Blue)/(Green+Blue)",ref:"Hunt et al. 2011",range:"-1 to 1",app:["Canopy flowering","Senescence"],desc:"Measures the yellowness of plant canopies, providing an excellent tool for monitoring crop flowering stages (like canola) and leaf senescence.",sats:{
 "sentinel-2":"(B3-B2)/(B3+B2)","landsat-8":"(B3-B2)/(B3+B2)"}},
 {id:"nli",name:"Non-Linear Vegetation Index",abbr:"NLI",cat:"vegetation",formula:"(NIR^2-Red)/(NIR^2+Red)",ref:"Goel & Qin 1994",range:"-1 to 1",app:["Biomass estimation"],idb:"https://www.indexdatabase.de/db/i-single.php?id=61",desc:"Incorporates a non-linear relationship between NIR and Red to improve sensitivity in dense canopies where traditional linear indices saturate.",sats:{
-"sentinel-2":"(B8*B8-B4)/(B8*B8+B4)","landsat-8":"(B5*B5-B4)/(B5*B5+B4)"}}
+"sentinel-2":"(B8*B8-B4)/(B8*B8+B4)","landsat-8":"(B5*B5-B4)/(B5*B5+B4)"}},
+{id:"lai",name:"Leaf Area Index",abbr:"LAI",cat:"vegetation",formula:"(3.618*EVI-0.118)",ref:"Boegh et al. 2002",range:"0 to 6+",app:["Crop modeling","Forest canopy"],desc:"Estimates the one-sided green leaf area per unit ground surface area, essential for climate and crop yield models. Often derived empirically from EVI or NDVI.",sats:{
+"sentinel-2":"3.618*(2.5*(B8-B4)/(B8+6*B4-7.5*B2+1))-0.118"}},
+{id:"gli",name:"Green Leaf Index",abbr:"GLI",cat:"vegetation",formula:"(2*Green-Red-Blue)/(2*Green+Red+Blue)",ref:"Louhaichi et al. 2001",range:"-1 to 1",app:["RGB vegetation"],desc:"An index designed for RGB images to distinguish living crop leaves from soil and non-living background.",sats:{
+"sentinel-2":"(2*B3-B4-B2)/(2*B3+B4+B2)","landsat-8":"(2*B3-B4-B2)/(2*B3+B4+B2)","planet":"(2*B2-B3-B1)/(2*B2+B3+B1)"}},
+{id:"wdrvi",name:"Wide Dynamic Range Vegetation Index",abbr:"WDRVI",cat:"vegetation",formula:"(a*NIR-Red)/(a*NIR+Red)",ref:"Gitelson 2004",range:"-1 to 1",app:["Dense canopies"],desc:"Introduces a weighting coefficient 'a' (e.g., 0.1-0.2) to reduce the disparity between NIR and Red, enhancing sensitivity in moderate to high biomass crops.",sats:{
+"sentinel-2":"(0.2*B8-B4)/(0.2*B8+B4)","landsat-8":"(0.2*B5-B4)/(0.2*B5+B4)"}},
+{id:"tcari",name:"Transformed Chlorophyll Absorption in Reflectance Index",abbr:"TCARI",cat:"chlorophyll",formula:"3*((RE-Red)-0.2*(RE-Green)*(RE/Red))",ref:"Haboudane et al. 2002",range:"Variable",app:["Crop nitrogen","Precision Ag"],desc:"Highly sensitive to chlorophyll variations and resistant to soil background effects, frequently used in precision agriculture for nitrogen management.",sats:{
+"sentinel-2":"3*((B5-B4)-0.2*(B5-B3)*(B5/B4))"}},
+{id:"mndwi",name:"Modified Normalized Difference Water Index",abbr:"MNDWI",cat:"water",formula:"(Green-SWIR)/(Green+SWIR)",ref:"Xu 2006",range:"-1 to 1",app:["Built-up areas","Open water"],desc:"Improves upon standard NDWI by using the SWIR band instead of NIR, which dramatically reduces background noise from built-up land and vegetation in water mapping.",sats:{
+"sentinel-2":"(B3-B11)/(B3+B11)","landsat-8":"(B3-B6)/(B3+B6)"}},
+{id:"nbr",name:"Normalized Burn Ratio",abbr:"NBR",cat:"burn",formula:"(NIR-SWIR)/(NIR+SWIR)",ref:"Key & Benson 1999",range:"-1 to 1",app:["Burn severity","Fire perimeter"],desc:"The standard index for assessing fire severity. Healthy vegetation reflects NIR, while recently burned areas strongly reflect SWIR.",sats:{
+"sentinel-2":"(B8-B12)/(B8+B12)","landsat-8":"(B5-B7)/(B5+B7)"}},
+{id:"ndmi",name:"Normalized Difference Moisture Index",abbr:"NDMI",cat:"moisture",formula:"(NIR-SWIR)/(NIR+SWIR)",ref:"Gao 1996",range:"-1 to 1",app:["Canopy water stress","Drought"],desc:"Mathematically identical to NBR, but used in agricultural contexts to measure water stress and moisture levels within plant canopies.",sats:{
+"sentinel-2":"(B8-B11)/(B8+B11)","landsat-8":"(B5-B6)/(B5+B6)"}},
+{id:"awei",name:"Automated Water Extraction Index",abbr:"AWEI",cat:"water",formula:"4*(Green-SWIR1)-(0.25*NIR+2.75*SWIR2)",ref:"Feyisa et al. 2014",range:"Variable",app:["Shadowed water","Urban lakes"],desc:"Designed to accurately extract water bodies in environments with severe shadows and dense urban structures where MNDWI might struggle.",sats:{
+"sentinel-2":"4*(B3-B11)-(0.25*B8+2.75*B12)","landsat-8":"4*(B3-B6)-(0.25*B5+2.75*B7)"}},
+{id:"ndsi",name:"Normalized Difference Snow Index",abbr:"NDSI",cat:"snow",formula:"(Green-SWIR)/(Green+SWIR)",ref:"Dozier 1989",range:"-1 to 1",app:["Snow cover","Glacier mapping"],desc:"Snow is highly reflective in the visible Green range but absorbs strongly in SWIR, making this index perfect for distinguishing snow from bright clouds.",sats:{
+"sentinel-2":"(B3-B11)/(B3+B11)","landsat-8":"(B3-B6)/(B3+B6)","modis":"(B4-B6)/(B4+B6)"}},
+{id:"bsi",name:"Bare Soil Index",abbr:"BSI",cat:"soil",formula:"((SWIR+Red)-(NIR+Blue))/((SWIR+Red)+(NIR+Blue))",ref:"Rikimaru et al. 2002",range:"-1 to 1",app:["Forest degradation","Soil mapping"],desc:"Combines multiple bands to quantify the presence of bare soil, highly useful for mapping deforestation and agricultural field preparation.",sats:{
+"sentinel-2":"((B11+B4)-(B8+B2))/((B11+B4)+(B8+B2))","landsat-8":"((B6+B4)-(B5+B2))/((B6+B4)+(B5+B2))"}},
+{id:"rdvi",name:"Renormalized Difference Vegetation Index",abbr:"RDVI",cat:"vegetation",formula:"(NIR-Red)/sqrt(NIR+Red)",ref:"Roujean & Breon 1995",range:"Variable",app:["Forest monitoring","Sparse canopies"],desc:"Combines the advantages of DVI and NDVI, increasing sensitivity to vegetation amount while remaining relatively unaffected by soil background in sparse canopies.",sats:{
+"sentinel-2":"(B8-B4)/sqrt(B8+B4)","landsat-8":"(B5-B4)/sqrt(B5+B4)"}},
+{id:"mtvi2",name:"Modified Triangular Vegetation Index 2",abbr:"MTVI2",cat:"vegetation",formula:"1.5*(1.2*(NIR-Green)-2.5*(Red-Green))/sqrt((2*NIR+1)²-(6*NIR-5*sqrt(Red))-0.5)",ref:"Haboudane et al. 2004",range:"Variable",app:["LAI estimation"],desc:"A complex index designed specifically to be sensitive to Leaf Area Index (LAI) while resisting the influence of chlorophyll variation and soil background.",sats:{
+"sentinel-2":"1.5*(1.2*(B8-B3)-2.5*(B4-B3))/sqrt((2*B8+1)*(2*B8+1)-(6*B8-5*sqrt(Math.abs(B4)))-0.5)"}},
+{id:"cri",name:"Carotenoid Reflectance Index",abbr:"CRI",cat:"chlorophyll",formula:"(1/Blue)-(1/Green)",ref:"Gitelson et al. 2002",range:"Variable",app:["Senescence","Carotenoid pigments"],desc:"Measures the concentration of carotenoid pigments relative to chlorophyll. Higher values indicate an increased ratio of carotenoids, often related to plant stress or senescence.",sats:{
+"sentinel-2":"(1/B2)-(1/B3)","landsat-8":"(1/B2)-(1/B3)"}},
+{id:"ari",name:"Anthocyanin Reflectance Index",abbr:"ARI",cat:"chlorophyll",formula:"(1/Green)-(1/RedEdge)",ref:"Gitelson et al. 2001",range:"Variable",app:["Canopy stress","New growth"],desc:"Quantifies the concentration of anthocyanins, which protect leaves from light damage. Useful for detecting physiological stress and characterizing new leaf growth.",sats:{
+"sentinel-2":"(1/B3)-(1/B5)"}},
+{id:"bai",name:"Burn Area Index",abbr:"BAI",cat:"burn",formula:"1/((0.1-Red)²+(0.06-NIR)²)",ref:"Martin 1998",range:"0 to 100+",app:["Charcoal detection","Fire mapping"],desc:"Uses the reflectance properties of charcoal to heavily emphasize burned areas. Burns exhibit high BAI values due to very low reflectance in both Red and NIR.",sats:{
+"sentinel-2":"1/((0.1-B4)*(0.1-B4)+(0.06-B8)*(0.06-B8))","landsat-8":"1/((0.1-B4)*(0.1-B4)+(0.06-B5)*(0.06-B5))"}},
+{id:"mcari2",name:"Modified Chlorophyll Absorption Ratio Index 2",abbr:"MCARI2",cat:"chlorophyll",formula:"1.5*(1.2*(NIR-Green)-2.5*(Red-Green))/sqrt((2*NIR+1)²-(6*NIR-5*sqrt(Red))-0.5)",ref:"Haboudane et al. 2004",range:"0 to 1.2",app:["Chlorophyll","Green biomass"],desc:"An improved version of MCARI that is less sensitive to Leaf Area Index (LAI) variations, making it a more robust estimator of chlorophyll content.",sats:{
+"sentinel-2":"1.5*(1.2*(B8-B3)-2.5*(B4-B3))/sqrt((2*B8+1)^2-(6*B8-5*sqrt(B4))-0.5)"}},
+{id:"gari",name:"Green Atmospherically Resistant Index",abbr:"GARI",cat:"vegetation",formula:"(NIR-(Green-(Blue-Red)))/(NIR+(Green-(Blue-Red)))",ref:"Gitelson et al. 1996",range:"-1 to 1",app:["Vegetation health","Hazy areas"],desc:"A vegetation index that is less sensitive to atmospheric aerosols, particularly useful in tropical regions with high humidity and haze.",sats:{
+"sentinel-2":"(B8-(B3-(B2-B4)))/(B8+(B3-(B2-B4)))"}},
+{id:"exg",name:"Excess Green Index",abbr:"ExG",cat:"vegetation",formula:"2*Green-Red-Blue",ref:"Woebbecke et al. 1995",range:"Variable",app:["Crop row detection","RGB vegetation"],desc:"A simple index derived from RGB cameras to highlight green vegetation against soil and residue background, widely used in proximal sensing and UAVs.",sats:{
+"sentinel-2":"2*B3-B4-B2"}},
+{id:"exr",name:"Excess Red Index",abbr:"ExR",cat:"vegetation",formula:"1.4*Red-Green",ref:"Meyer et al. 2008",range:"Variable",app:["Soil/residue detection"],desc:"Used in conjunction with ExG to better differentiate between green plants, soil, and crop residues in visibility-based classification.",sats:{
+"sentinel-2":"1.4*B4-B3"}},
+{id:"cive",name:"Color Index of Vegetation Extraction",abbr:"CIVE",cat:"vegetation",formula:"0.441*Red-0.811*Green+0.385*Blue+18.787",ref:"Kataoka et al. 2003",range:"Variable",app:["Vegetation segmentation"],desc:"A linear combination of visible bands designed to improve the extraction of green vegetation from high-resolution digital images.",sats:{
+"sentinel-2":"0.441*B4-0.811*B3+0.385*B2+18.787"}},
+{id:"wri",name:"Water Ratio Index",abbr:"WRI",cat:"water",formula:"(Green+Red)/(NIR+SWIR1)",ref:"Shen & Li 2010",range:"Variable (> 1 is water)",app:["Surface water mapping"],desc:"Water bodies generally have higher values in the visible spectrum compared to the infrared, making this ratio a reliable water indicator.",sats:{
+"sentinel-2":"(B3+B4)/(B8+B11)"}},
+{id:"ui",name:"Urban Index",abbr:"UI",cat:"urban",formula:"(SWIR2-NIR)/(SWIR2+NIR)",ref:"Kawamura et al. 1996",range:"-1 to 1",app:["Built-up area mapping"],desc:"Specifically designed to highlight urban structures and man-made surfaces using the contrast between NIR and SWIR spectral regions.",sats:{
+"sentinel-2":"(B12-B8)/(B12+B8)"}},
+{id:"ebbi",name:"Enhanced Built-up and Bareness Index",abbr:"EBBI",cat:"urban",formula:"(SWIR1-NIR)/(10*sqrt(SWIR1+1))",ref:"As-syakur et al. 2012",range:"0 to 1",app:["Urban vs Bare soil"],desc:"A specialized index that uses SWIR and NIR bands to better distinguish between built-up areas and bare soil, which often look similar in optical bands.",sats:{
+"sentinel-2":"(B11-B8)/(10*sqrt(B11+1))"}},
+{id:"nbi",name:"New Built-up Index",abbr:"NBI",cat:"urban",formula:"(Red*SWIR1)/NIR",ref:"Jha & Unni 1994",range:"Variable",app:["Urban sprawl monitoring"],desc:"Combines the Red, SWIR, and NIR bands to produce a map where urban areas appear significantly brighter than surrounding vegetation and water.",sats:{
+"sentinel-2":"(B4*B11)/B8"}},
+{id:"s3",name:"Snow Index 3",abbr:"S3",cat:"snow",formula:"(Green*(Red-SWIR1))/((Green+Red)*(Red+SWIR1))",ref:"Shimamura et al. 2006",range:"-1 to 1",app:["Snow in forest"],desc:"Designed to detect snow in areas with complex topography and forest cover, where shadows typically interfere with standard snow indices.",sats:{
+"sentinel-2":"(B3*(B4-B11))/((B3+B4)*(B4+B11))"}},
+{id:"mndwi2",name:"Modified Normalized Difference Water Index 2",abbr:"MNDWI2",cat:"water",formula:"(Green-SWIR2)/(Green+SWIR2)",ref:"Modified",range:"-1 to 1",app:["Water in urban areas"],desc:"Uses the SWIR2 band to further reduce noise from shadowed urban surfaces and certain soil types when identifying open water.",sats:{
+"sentinel-2":"(B3-B12)/(B3+B12)"}},
+{id:"ndre2",name:"Normalized Difference Red Edge 2",abbr:"NDRE2",cat:"vegetation",formula:"(RE2-RE1)/(RE2+RE1)",ref:"Barnes et al. 2000",range:"-1 to 1",app:["Precision Ag","Chlorophyll"],desc:"A red-edge index using two specific narrow bands (B6 and B5 on Sentinel-2) to capture subtle changes in chlorophyll content and leaf structure.",sats:{
+"sentinel-2":"(B6-B5)/(B6+B5)"}},
+{id:"ndre3",name:"Normalized Difference Red Edge 3",abbr:"NDRE3",cat:"vegetation",formula:"(RE3-RE1)/(RE3+RE1)",ref:"Barnes et al. 2000",range:"-1 to 1",app:["Crop monitoring"],desc:"Uses the third red-edge band (B7) to provide a deeper look into the vegetation canopy compared to NDRE2.",sats:{
+"sentinel-2":"(B7-B5)/(B7+B5)"}},
+{id:"vari700",name:"Visible Atmospherically Resistant Index 700",abbr:"VARI700",cat:"vegetation",formula:"(RE1-Red)/(RE1+Red)",ref:"Gitelson 2004",range:"-1 to 1",app:["Early stress detection"],desc:"Similar to VARI but utilizes the red-edge region (700nm) to increase sensitivity to chlorophyll content and early plant stress.",sats:{
+"sentinel-2":"(B5-B4)/(B5+B4)"}},
+{id:"mgrvi",name:"Modified Green Red Vegetation Index",abbr:"MGRVI",cat:"vegetation",formula:"(Green²-Red²)/(Green²+Red²)",ref:"Bendig et al. 2015",range:"-1 to 1",app:["UAV vegetation monitoring"],desc:"A non-linear visible-band index that enhances the contrast between green plants and soil/residue background in high-resolution images.",sats:{
+"sentinel-2":"(B3*B3-B4*B4)/(B3*B3+B4*B4)"}},
+{id:"veg",name:"Vegetative Index",abbr:"VEG",cat:"vegetation",formula:"Green/(Red^0.667 * Blue^0.333)",ref:"Hague et al. 2006",range:"Variable",app:["Weed detection","Segmentation"],desc:"A visible spectrum index designed for separating green crops from soil and other backgrounds in varying lighting conditions.",sats:{
+"sentinel-2":"B3/(Math.pow(B4,0.667)*Math.pow(B2,0.333))"}},
+{id:"gemi",name:"Global Environmental Monitoring Index",abbr:"GEMI",cat:"vegetation",formula:"eta*(1-0.25*eta)-(Red-0.125)/(1-Red)",ref:"Pinty & Verstraete 1992",range:"0 to 1",app:["Global vegetation monitoring"],desc:"A non-linear vegetation index designed to minimize atmospheric effects while remaining sensitive to vegetation cover, especially in global monitoring applications.",sats:{
+"sentinel-2":"((2*(Math.pow(B8,2)-Math.pow(B4,2))+1.5*B8+0.5*B4)/(B8+B4+0.5))*(1-0.25*((2*(Math.pow(B8,2)-Math.pow(B4,2))+1.5*B8+0.5*B4)/(B8+B4+0.5)))-(B4-0.125)/(1-B4)"}},
+{id:"mnli",name:"Modified Non-Linear Vegetation Index",abbr:"MNLI",cat:"vegetation",formula:"(1+L)*(NIR²-Red)/(NIR²+Red+L)",ref:"Yang et al. 1997",range:"-1 to 1",app:["Biomass estimation"],desc:"A further refinement of the Non-Linear Vegetation Index (NLI) that incorporates a soil adjustment factor 'L' to improve performance in sparsely vegetated areas.",sats:{
+"sentinel-2":"(1.5)*(B8*B8-B4)/(B8*B8+B4+0.5)"}},
+{id:"msr",name:"Modified Simple Ratio",abbr:"MSR",cat:"vegetation",formula:"(NIR/Red-1)/sqrt(NIR/Red)+1",ref:"Chen 1996",range:"0 to 10+",app:["Forest biomass","LAI"],desc:"An improved version of the Simple Ratio (SR) that linearizes the relationship with Leaf Area Index (LAI) and increases sensitivity in high biomass areas.",sats:{
+"sentinel-2":"((B8/B4)-1)/(Math.sqrt(B8/B4)+1)"}},
+{id:"tvii",name:"Thiam's Vegetation Index",abbr:"TVII",cat:"vegetation",formula:"sqrt(abs((NIR-Red)/(NIR+Red)+0.5))",ref:"Thiam 1997",range:"0 to 1.5",app:["Arid land monitoring"],desc:"A transformed version of NDVI designed to eliminate negative values and improve the statistical properties of the index for change detection in arid lands.",sats:{
+"sentinel-2":"Math.sqrt(Math.abs((B8-B4)/(B8+B4)+0.5))"}},
+{id:"grndvi",name:"Green-Red Normalized Difference Vegetation Index",abbr:"GRNDVI",cat:"vegetation",formula:"(NIR-(Green+Red))/(NIR+(Green+Red))",ref:"Noda et al. 2021",range:"-1 to 1",app:["Early crop stress"],desc:"Combines both the green and red bands in the normalized difference with NIR, providing a broader look at photosynthetic activity and leaf pigments.",sats:{
+"sentinel-2":"(B8-(B3+B4))/(B8+(B3+B4))"}},
+{id:"gbndvi",name:"Green-Blue Normalized Difference Vegetation Index",abbr:"GBNDVI",cat:"vegetation",formula:"(NIR-(Green+Blue))/(NIR+(Green+Blue))",ref:"Noda et al. 2021",range:"-1 to 1",app:["Stress detection"],desc:"Incorporates the blue band into the vegetation index calculation, improving sensitivity to pigment changes and atmospheric scattering correction.",sats:{
+"sentinel-2":"(B8-(B3+B2))/(B8+(B3+B2))"}},
+{id:"ngbdi",name:"Normalized Green Blue Difference Index",abbr:"NGBDI",cat:"vegetation",formula:"(Green-Blue)/(Green+Blue)",ref:"Perez et al. 2000",range:"-1 to 1",app:["Plant segmentation"],desc:"A visible spectrum index that compares green and blue reflectance, often used for identifying green plants in digital photography and drone data.",sats:{
+"sentinel-2":"(B3-B2)/(B3+B2)"}},
+{id:"rgri",name:"Red Green Ratio Index",abbr:"RGRI",cat:"chlorophyll",formula:"Red/Green",ref:"Gamon et al. 1997",range:"0 to 5+",app:["Senescence","Carotenoid detection"],desc:"A simple ratio of red to green reflectance, used to indicate leaf senescence and the accumulation of anthocyanins or carotenoids relative to chlorophyll.",sats:{
+"sentinel-2":"B4/B3"}},
+{id:"bndvi",name:"Blue Normalized Difference Vegetation Index",abbr:"BNDVI",cat:"vegetation",formula:"(NIR-Blue)/(NIR+Blue)",ref:"Sellers 1985",range:"-1 to 1",app:["Water stress"],desc:"Uses the blue band instead of the red band in the normalized difference formula, providing sensitivity to canopy structural changes and water stress.",sats:{
+"sentinel-2":"(B8-B2)/(B8+B2)"}},
+{id:"ipvi",name:"Infrared Percentage Vegetation Index",abbr:"IPVI",cat:"vegetation",formula:"NIR/(NIR+Red)",ref:"Crippen 1990",range:"0 to 1",app:["Land cover mapping"],desc:"A mathematically simpler version of NDVI that avoids negative values while providing the same thematic information as the standard normalized difference.",sats:{
+"sentinel-2":"B8/(B8+B4)"}},
+{id:"nd705",name:"Normalized Difference 705 Index",abbr:"ND705",cat:"vegetation",formula:"(RE2-RE1)/(RE2+RE1)",ref:"Gitelson & Merzlyak 1994",range:"-1 to 1",app:["Precision Ag"],desc:"A narrow-band red edge index specifically designed to capture subtle changes in chlorophyll content in healthy canopies.",sats:{
+"sentinel-2":"(B6-B5)/(B6+B5)"}},
+{id:"mnd705",name:"Modified Normalized Difference 705 Index",abbr:"mND705",cat:"vegetation",formula:"(RE2-RE1)/(RE2+RE1-2*Blue)",ref:"Sims & Gamon 2002",range:"-1 to 1",app:["Leaf chlorophyll"],desc:"An improved version of ND705 that incorporates the blue band to correct for surface reflectance and specular reflection at the leaf surface.",sats:{
+"sentinel-2":"(B6-B5)/(B6+B5-2*B2)"}},
+{id:"vrei1",name:"Vogelmann Red Edge Index 1",abbr:"VREI1",cat:"vegetation",formula:"RE2/RE1",ref:"Vogelmann et al. 1993",range:"0 to 10+",app:["Forest stress"],desc:"A simple ratio index using red edge bands to detect physiological stress in forest canopies and measure chlorophyll concentrations.",sats:{
+"sentinel-2":"B6/B5"}},
+{id:"vrei2",name:"Vogelmann Red Edge Index 2",abbr:"VREI2",cat:"vegetation",formula:"(RE2-RE1)/(RE2+RE1)",ref:"Vogelmann et al. 1993",range:"-1 to 1",app:["Canopy chlorophyll"],desc:"The normalized difference version of the Vogelmann index, providing a robust measure of chlorophyll content across varying canopy structures.",sats:{
+"sentinel-2":"(B6-B5)/(B6+B5)"}}
 ];
 
 const INDEX_CATEGORIES=[

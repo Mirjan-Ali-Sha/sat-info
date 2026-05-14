@@ -57,6 +57,8 @@
           <button class="nav-tab active" data-target="tab-satellites">Datasets</button>
           <button class="nav-tab" data-target="tab-indices">Spectral Indices</button>
           <button class="nav-tab" data-target="tab-xref">Cross-Reference</button>
+          <button class="nav-tab" data-target="tab-learning">Learning</button>
+          <button class="nav-tab" data-target="tab-knowledge">Knowledge Base</button>
         </nav>
         <button id="themeToggle" style="background:none;border:none;color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:6px;border-radius:50%;transition:var(--transition);" aria-label="Toggle Theme">
           <svg id="themeIconDark" style="display:block;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -146,6 +148,20 @@
       </div>
     </div>
 
+    <!-- TAB 4: LEARNING -->
+    <div id="tab-learning" class="tab-content">
+      <div class="learning-wrap" id="learningGrid" style="max-width:800px;margin:0 auto;padding:20px 0;">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- TAB 5: KNOWLEDGE BASE -->
+    <div id="tab-knowledge" class="tab-content">
+      <div class="knowledge-wrap" id="knowledgeBase" style="max-width:800px;margin:0 auto;padding:20px 0;">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
   </main>
 
   <!-- INDEX MODAL -->
@@ -206,6 +222,8 @@
 
   <script src="js/data/satellites.js"></script>
   <script src="js/data/indices.js"></script>
+  <script src="js/data/learning.js"></script>
+  <script src="js/data/knowledge.js"></script>
   <script src="js/app.js"></script>
   <script>
     // Register Service Worker

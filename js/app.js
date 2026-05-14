@@ -12,6 +12,8 @@ const els = {
   headerSearchInput: document.getElementById('headerSearchInput'),
   mobileMenuToggle: document.getElementById('mobileMenuToggle'),
   mainTabs: document.getElementById('mainTabs'),
+  learningGrid: document.getElementById('learningGrid'),
+  knowledgeBase: document.getElementById('knowledgeBase'),
   statSats: document.getElementById('stat-sats'),
   statIndices: document.getElementById('stat-indices'),
   themeToggle: document.getElementById('themeToggle'),
@@ -91,6 +93,8 @@ function init() {
   renderSats();
   renderIndices();
   renderCrossReference();
+  renderLearning();
+  renderKnowledge();
 
   handleHash();
 }
@@ -118,6 +122,16 @@ function handleHash() {
   
   if (hash === 'cross-ref') {
     if (!els.tabs[2].classList.contains('active')) els.tabs[2].click();
+    return;
+  }
+  
+  if (hash === 'learning') {
+    if (!els.tabs[3].classList.contains('active')) els.tabs[3].click();
+    return;
+  }
+  
+  if (hash === 'knowledge') {
+    if (!els.tabs[4].classList.contains('active')) els.tabs[4].click();
     return;
   }
   
@@ -149,13 +163,18 @@ function setupTabs() {
       if (targetId === 'tab-satellites') history.replaceState(null, null, '#datasets');
       else if (targetId === 'tab-indices') history.replaceState(null, null, '#indices');
       else if (targetId === 'tab-xref') history.replaceState(null, null, '#cross-ref');
+      else if (targetId === 'tab-learning') history.replaceState(null, null, '#learning');
+      else if (targetId === 'tab-knowledge') history.replaceState(null, null, '#knowledge');
 
       // Clear search on tab switch
       state.searchQuery = '';
       if (els.searchInput) els.searchInput.value = '';
       if (els.headerSearchInput) els.headerSearchInput.value = '';
+      
       renderSats();
       renderIndices();
+      renderLearning();
+      renderKnowledge();
 
       // Close mobile menu
       if(els.mainTabs) els.mainTabs.classList.remove('menu-open');
@@ -223,6 +242,8 @@ function setupSearch() {
     if(els.headerSearchInput) els.headerSearchInput.value = e.target.value;
     renderSats();
     renderIndices();
+    renderLearning();
+    renderKnowledge();
   });
   
   if (els.headerSearchInput) {
@@ -231,6 +252,8 @@ function setupSearch() {
       els.searchInput.value = e.target.value;
       renderSats();
       renderIndices();
+      renderLearning();
+      renderKnowledge();
     });
   }
 }
@@ -241,6 +264,8 @@ function renderSatFilters() {
     let count;
     if (cat.id === 'all') count = SATELLITES.length;
     else if (cat.id === 'free' || cat.id === 'paid') count = SATELLITES.filter(s => s.pricing === cat.id).length;
+    else if (cat.id === 'active') count = SATELLITES.filter(s => s.status.toLowerCase().includes('active')).length;
+    else if (cat.id === 'inactive') count = SATELLITES.filter(s => !s.status.toLowerCase().includes('active')).length;
     else count = SATELLITES.filter(s => s.category === cat.id).length;
     return `
       <button class="filter-chip ${state.activeSatFilter === cat.id ? 'active' : ''}" data-id="${cat.id}">
@@ -284,6 +309,10 @@ function renderSats() {
   if (state.activeSatFilter !== 'all') {
     if (state.activeSatFilter === 'free' || state.activeSatFilter === 'paid') {
       filtered = filtered.filter(s => s.pricing === state.activeSatFilter);
+    } else if (state.activeSatFilter === 'active') {
+      filtered = filtered.filter(s => s.status.toLowerCase().includes('active'));
+    } else if (state.activeSatFilter === 'inactive') {
+      filtered = filtered.filter(s => !s.status.toLowerCase().includes('active'));
     } else {
       filtered = filtered.filter(s => s.category === state.activeSatFilter);
     }
@@ -313,21 +342,23 @@ function renderSats() {
       stacHtml = `
         <div class="stac-section">
           <h4>STAC API Endpoints</h4>
-          ${sat.stac.map(s => `
-            <div class="stac-item">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span class="stac-item__provider">${s.p}</span>
-                ${s.d ? `<a href="${s.d}" target="_blank" rel="noopener noreferrer" style="font-size: 0.75rem; color: var(--accent-blue); text-decoration: none; display:flex; align-items:center; gap:4px;">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                  API Docs
-                </a>` : ''}
+          <div class="stac-grid">
+            ${sat.stac.map(s => `
+              <div class="stac-item">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span class="stac-item__provider">${s.p}</span>
+                  ${s.d ? `<a href="${s.d}" target="_blank" rel="noopener noreferrer" style="font-size: 0.75rem; color: var(--accent-blue); text-decoration: none; display:flex; align-items:center; gap:4px;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                    API Docs
+                  </a>` : ''}
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                  <span class="stac-item__url">${s.u}</span>
+                  <button class="stac-copy" data-url="${s.u}">Copy</button>
+                </div>
               </div>
-              <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-                <span class="stac-item__url">${s.u}</span>
-                <button class="stac-copy" data-url="${s.u}">Copy</button>
-              </div>
-            </div>
-          `).join('')}
+            `).join('')}
+          </div>
         </div>
       `;
     }
@@ -353,7 +384,7 @@ function renderSats() {
         <div class="sat-card__head">
           <div>
             <div class="sat-card__name">${sat.name}</div>
-            <div class="sat-card__operator">${sat.operator} • Launched ${sat.launch}</div>
+            <div class="sat-card__operator">${sat.operator} • Data: ${sat.dateStart} - ${sat.dateEnd}</div>
           </div>
         </div>
         
@@ -384,6 +415,7 @@ function renderSats() {
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem">
              <div class="spec"><span class="spec__label">Orbit</span><span class="spec__value" style="font-size:0.8rem;font-weight:400">${sat.orbit}</span></div>
              <div class="spec"><span class="spec__label">Swath</span><span class="spec__value" style="font-size:0.8rem;font-weight:400">${sat.swath}</span></div>
+             <div class="spec" style="grid-column: span 2"><span class="spec__label">Data Availability</span><span class="spec__value" style="font-size:0.8rem;font-weight:400">${sat.dateStart} to ${sat.dateEnd}</span></div>
           </div>
 
           ${sat.contact ? `
@@ -606,5 +638,109 @@ function renderCrossReference() {
   }).join('');
 }
 
+// Learning Section
+function renderLearning() {
+  if (!els.learningGrid) return;
+  
+  const query = state.searchQuery.toLowerCase();
+  const filtered = LEARNING_RESOURCES.filter(res => 
+    res.title.toLowerCase().includes(query) || 
+    res.category.toLowerCase().includes(query) ||
+    res.desc.toLowerCase().includes(query)
+  );
+
+  if (filtered.length === 0) {
+    els.learningGrid.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted)">No matching tutorials found.</div>';
+    return;
+  }
+
+  els.learningGrid.innerHTML = filtered.map((res, index) => `
+    <div class="kb-item" style="background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius-md); margin-bottom:12px; overflow:hidden;">
+      <div class="kb-question" onclick="toggleLearningContent('${res.id}')" style="padding:16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:12px; transition:var(--transition); hover:background:rgba(255,255,255,0.02)">
+        <div>
+          <div style="font-weight:700; font-size:1rem; line-height:1.4; color:var(--accent-blue);">${index + 1}. ${res.title}</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">${res.category} • ${res.duration} • ${res.level}</div>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          ${res.videoSearch ? `
+            <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(res.videoSearch)}" target="_blank" rel="noopener noreferrer" style="color: #ff0000; display:flex; align-items:center; gap:4px; text-decoration:none; font-size:0.75rem; font-weight:600; background:rgba(255,0,0,0.05); padding:4px 8px; border-radius:4px; border:1px solid rgba(255,0,0,0.1)" onclick="event.stopPropagation()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              Find Video
+            </a>
+          ` : ''}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; transition:var(--transition);"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div id="learning-content-${res.id}" class="kb-answer" style="display:none; padding:0 16px 16px; border-top:1px solid var(--border); background:var(--bg-inset);">
+        <div style="padding-top:16px;">
+          <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:16px; font-style:italic;">${res.desc}</p>
+          <div class="tutorial-body" style="font-size:0.9rem; line-height:1.6; color:var(--text-primary)">
+            ${res.content}
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleLearningContent(id) {
+  const content = document.getElementById(`learning-content-${id}`);
+  const isVisible = content.style.display === 'block';
+  content.style.display = isVisible ? 'none' : 'block';
+  
+  const question = content.previousElementSibling;
+  question.querySelector('svg').style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
+  question.style.background = isVisible ? 'none' : 'rgba(255,255,255,0.02)';
+}
+
+// Knowledge Base Section
+function renderKnowledge() {
+  if (!els.knowledgeBase) return;
+
+  const query = state.searchQuery.toLowerCase();
+  const filtered = KNOWLEDGE_BASE.filter(kb => 
+    kb.question.toLowerCase().includes(query) || 
+    kb.answer.toLowerCase().includes(query) ||
+    kb.category.toLowerCase().includes(query) ||
+    kb.tags.some(t => t.toLowerCase().includes(query))
+  );
+
+  if (filtered.length === 0) {
+    els.knowledgeBase.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted)">No matching Q&A found.</div>';
+    return;
+  }
+
+  els.knowledgeBase.innerHTML = filtered.map((kb, index) => `
+    <div class="kb-item" style="background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius-md); margin-bottom:12px; overflow:hidden;">
+      <div class="kb-question" onclick="toggleKBAnswer('${kb.id}')" style="padding:16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:12px; transition:var(--transition); hover:background:rgba(255,255,255,0.02)">
+        <div style="font-weight:600; font-size:0.95rem; line-height:1.4;">
+          <span style="color:var(--accent-purple); margin-right:8px;">Q${index + 1}.</span> ${kb.question}
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; transition:var(--transition);"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </div>
+      <div id="kb-answer-${kb.id}" class="kb-answer" style="display:none; padding:0 16px 16px; border-top:1px solid var(--border); background:var(--bg-inset);">
+        <div style="padding-top:16px; font-size:0.9rem; line-height:1.6; color:var(--text-secondary);">
+          ${kb.answer}
+          <div style="margin-top:12px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-right:4px; align-self:center">Tags:</span>
+            ${kb.tags.map(tag => `<span style="font-size:0.7rem; background:rgba(124,58,237,0.1); color:#a78bfa; padding:2px 8px; border-radius:4px; border:1px solid rgba(124,58,237,0.2)">${tag}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleKBAnswer(id) {
+  const answer = document.getElementById(`kb-answer-${id}`);
+  const isVisible = answer.style.display === 'block';
+  answer.style.display = isVisible ? 'none' : 'block';
+  
+  const question = answer.previousElementSibling;
+  question.querySelector('svg').style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
+  question.style.background = isVisible ? 'none' : 'rgba(255,255,255,0.02)';
+}
+
 // Start
 document.addEventListener('DOMContentLoaded', init);
+
