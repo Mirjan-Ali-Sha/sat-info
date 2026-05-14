@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Satellite Info - Dataset & Spectral Index Explorer</title>
+  <meta name="description" content="A comprehensive reference for satellite datasets, spectral indices, and STAC endpoints.">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#06080f">
+  <link rel="icon" href="assets/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- SPLASH SCREEN -->
+  <div id="splashScreen">
+    <svg class="splash-logo" viewBox="0 0 24 24" fill="none" stroke="url(#grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <defs>
+        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00d4ff" />
+          <stop offset="100%" stop-color="#7c3aed" />
+        </linearGradient>
+      </defs>
+      <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" opacity="0.3"/>
+      <path d="M12 2a10 10 0 0 1 10 10"/>
+      <path d="M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+      <path d="M22 12A10 10 0 0 0 12 2v2a8 8 0 0 1 8 8z"/>
+      <path d="M12 22a10 10 0 0 1-10-10H0a12 12 0 0 0 12 12z" stroke="#00ff88"/>
+    </svg>
+    <div class="splash-title">Satellite Info</div>
+    <div class="splash-author">by Mirjan Ali Sha</div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="#" class="header__logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="url(#grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <defs>
+            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00d4ff" />
+              <stop offset="100%" stop-color="#7c3aed" />
+            </linearGradient>
+          </defs>
+          <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" opacity="0.3"/>
+          <path d="M12 2a10 10 0 0 1 10 10"/>
+          <path d="M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+          <path d="M22 12A10 10 0 0 0 12 2v2a8 8 0 0 1 8 8z"/>
+          <path d="M12 22a10 10 0 0 1-10-10H0a12 12 0 0 0 12 12z" stroke="#00ff88"/>
+        </svg>
+        <span>Satellite Info</span>
+      </a>
+      
+      <div class="header-actions" style="display:flex;align-items:center;gap:16px;">
+        <nav class="nav-tabs" id="mainTabs">
+          <button class="nav-tab active" data-target="tab-satellites">Datasets</button>
+          <button class="nav-tab" data-target="tab-indices">Spectral Indices</button>
+          <button class="nav-tab" data-target="tab-xref">Cross-Reference</button>
+        </nav>
+        <button id="themeToggle" style="background:none;border:none;color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:6px;border-radius:50%;transition:var(--transition);" aria-label="Toggle Theme">
+          <svg id="themeIconDark" style="display:block;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg id="themeIconLight" style="display:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <button id="mobileMenuToggle" style="display:none;background:none;border:none;color:var(--text-secondary);cursor:pointer;padding:6px;border-radius:50%;" aria-label="Toggle Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="header-search" id="headerSearchWrap">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="headerSearchInput" class="search-input" placeholder="Search...">
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 class="hero__title">Earth Observation <span>Data Explorer</span></h1>
+    <p class="hero__sub">The definitive reference for satellite sensor specifications, spectral indices, and STAC API endpoints.</p>
+    
+    <div class="hero__stats">
+      <div class="hero__stat">
+        <div class="hero__stat-num" id="stat-sats">0</div>
+        <div class="hero__stat-label">Satellites</div>
+      </div>
+      <div class="hero__stat">
+        <div class="hero__stat-num" id="stat-indices">0</div>
+        <div class="hero__stat-label">Indices</div>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="searchInput" class="search-input" placeholder="Search satellites, bands, or indices (e.g. 'Sentinel', 'NDVI', 'SAR')...">
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    
+    <!-- TAB 1: SATELLITES -->
+    <div id="tab-satellites" class="tab-content active">
+      <div class="filters" id="satFilters">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="card-grid" id="satGrid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- TAB 2: INDICES -->
+    <div id="tab-indices" class="tab-content">
+      <div class="filters" id="idxFilters">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="index-table-wrap">
+        <table class="index-table">
+          <thead>
+            <tr>
+              <th>Abbr</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Application</th>
+              <th>Formula</th>
+            </tr>
+          </thead>
+          <tbody id="idxTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 3: CROSS REFERENCE -->
+    <div id="tab-xref" class="tab-content">
+      <div class="xref-wrap">
+        <table class="xref-table">
+          <thead id="xrefHead">
+            <!-- Rendered by JS -->
+          </thead>
+          <tbody id="xrefBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- INDEX MODAL -->
+  <div class="modal-overlay" id="indexModal">
+    <div class="modal">
+      <div class="modal__head">
+        <div>
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px">
+            <h2 class="modal__title" id="modalTitle">NDVI</h2>
+            <span class="idx-cat-badge" id="modalCat">Vegetation</span>
+          </div>
+          <p id="modalName" style="color:var(--text-secondary);font-size:0.9rem;">Normalized Difference Vegetation Index</p>
+        </div>
+        <button class="modal__close" id="modalClose">×</button>
+      </div>
+      
+      <p id="modalDesc" style="margin-top: 15px; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5; color: var(--text-primary);"></p>
+      
+      <div class="modal__formula-box" id="modalFormula" style="background:var(--bg-inset);">(NIR - Red) / (NIR + Red)</div>
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+        <div class="modal__section">
+          <h4>Applications</h4>
+          <div class="modal__tags" id="modalApps"></div>
+        </div>
+        <div class="modal__section">
+          <h4>Reference & Range</h4>
+          <p id="modalRef"></p>
+          <p id="modalRange" style="margin-top:6px;font-family:monospace;color:var(--accent-amber)"></p>
+        </div>
+      </div>
+
+      <div id="modalRangeWrap" style="display:none; margin-bottom:1.5rem; background:var(--bg-inset); padding:1rem; border-radius:var(--radius-md); border:1px solid var(--border);">
+        <h4 style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:0.25rem;">Range Interpretation</h4>
+        <div class="range-bar" id="modalRangeBar"></div>
+        <div class="range-legend" id="modalRangeLabels"></div>
+      </div>
+
+      <div class="modal__section" id="modalSatCalcSection">
+        <h4>Satellite-Specific Calculations</h4>
+        <ul class="sat-formula-list" id="modalSatCalcs">
+          <!-- Rendered by JS -->
+        </ul>
+      </div>
+
+      <div class="modal__section" style="margin-top:20px;text-align:center">
+         <a id="modalIdbLink" href="#" target="_blank" style="color:var(--accent-blue);font-size:0.85rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px">
+           View on IndexDataBase (IDB)
+           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+         </a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>Data sourced from official satellite specs and <a href="https://www.indexdatabase.de/" target="_blank">IndexDataBase</a>.</p>
+  </footer>
+
+  <script src="js/data/satellites.js"></script>
+  <script src="js/data/indices.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(err => {
+          console.log('SW Registration Failed: ', err);
+        });
+      });
+    }
+
+    // Hide Splash Screen
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('splashScreen').classList.add('hide');
+      }, 1500); // Hide after 1.5s
+    });
+  </script>
+</body>
+</html>
