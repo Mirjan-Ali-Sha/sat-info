@@ -79,14 +79,14 @@ desc:"C-band SAR providing all-weather, day/night radar imaging for land and oce
 {name:"HH",label:"HH Pol",wl:"L-band 23.6cm",gsd:"3m"},{name:"HV",label:"HV Pol",wl:"L-band 23.6cm",gsd:"3m"},
 {name:"VV",label:"VV Pol",wl:"L-band 23.6cm",gsd:"3m"},{name:"VH",label:"VH Pol",wl:"L-band 23.6cm",gsd:"3m"}],
 spatial:"1-10m",spectral:"L-band SAR",temporal:"14 days",radiometric:"16-bit",swath:"25-350 km",
-pricing:"paid",contact:"https://www.restec.or.jp/en/",orbit:"Sun-synchronous (628 km)",stac:[],
+pricing:"paid",pricingDetail:"~$100 - $300 per scene (Archive), Tasking requires quote.",contact:"https://www.restec.or.jp/en/",orbit:"Sun-synchronous (628 km)",stac:[],
 indices:["rvi-sar","rfdi","biomass"],
 desc:"L-band SAR excelling at forest monitoring due to deep canopy penetration."},
 
 {id:"terrasar-x",name:"TerraSAR-X / TanDEM-X",operator:"DLR/Airbus",category:"sar",launch:"2007/2010",status:"Active",dateStart:"2007-06",dateEnd:"Present",bands:[
 {name:"HH",label:"HH Pol",wl:"X-band 3.1cm",gsd:"1m"},{name:"VV",label:"VV Pol",wl:"X-band 3.1cm",gsd:"1m"}],
 spatial:"0.25-40m",spectral:"X-band SAR",temporal:"11 days",radiometric:"16-bit",swath:"5-100 km",
-pricing:"paid",contact:"https://www.intelligence-airbusds.com/",orbit:"Sun-synchronous (514 km)",stac:[],
+pricing:"paid",pricingDetail:"Archive: ~$15/km² (MOQ 25km²). Tasking: ~$50/km².",contact:"https://www.intelligence-airbusds.com/",orbit:"Sun-synchronous (514 km)",stac:[],
 indices:["rvi-sar","coherence","dem"],
 desc:"High-resolution X-band SAR for urban monitoring and DEM generation."},
 
@@ -111,7 +111,7 @@ desc:"Italian hyperspectral mission combining a 239-band imager with 5m panchrom
 {id:"desis",name:"DESIS (ISS)",operator:"DLR/Teledyne",category:"hyperspectral",launch:"2018",status:"Active",dateStart:"2018-06",dateEnd:"Present",bands:[
 {name:"HSI",label:"HSI",wl:"400-1000nm",gsd:"30m"}],
 spatial:"30m",spectral:"235 bands",temporal:"3-5 days (ISS orbit)",radiometric:"12-bit (13 eff.)",swath:"30 km",
-pricing:"paid",contact:"https://tbe.com/",orbit:"ISS orbit (400 km, 51.6° incl.)",stac:[],
+pricing:"paid",pricingDetail:"Research/Commercial tasking. Pricing varies by proposal/use-case.",contact:"https://tbe.com/",orbit:"ISS orbit (400 km, 51.6° incl.)",stac:[],
 indices:["ndvi","pri","cri","ari","mcari","rei"],
 desc:"Hyperspectral instrument on the ISS covering VNIR range with 2.55nm spectral sampling."},
 
@@ -122,7 +122,7 @@ desc:"Hyperspectral instrument on the ISS covering VNIR range with 2.55nm spectr
 {name:"Red",label:"Red",wl:"630nm",gsd:"1.24m"},{name:"RE",label:"RedEdge",wl:"724nm",gsd:"1.24m"},
 {name:"NIR1",label:"NIR1",wl:"832nm",gsd:"1.24m"},{name:"NIR2",label:"NIR2",wl:"948nm",gsd:"1.24m"}],
 spatial:"0.31m Pan / 1.24m MS / 3.7m SWIR",spectral:"29 bands (8 VNIR + 8 SWIR + 12 CAVIS + Pan)",temporal:"<1 day (agile)",radiometric:"11-bit",swath:"13.1 km",
-pricing:"paid",contact:"https://www.maxar.com/",orbit:"Sun-synchronous (617 km)",stac:[],
+pricing:"paid",pricingDetail:"Archive: ~$22.50/km² (MOQ 25km²). Tasking: ~$55/km² (MOQ 100km²).",contact:"https://www.maxar.com/",orbit:"Sun-synchronous (617 km)",stac:[],
 indices:["ndvi","evi","savi","ndwi","ndbi","gndvi","osavi","ndre","arvi"],
 desc:"Ultra-high resolution commercial satellite with 0.31m panchromatic and SWIR capabilities."},
 
@@ -131,7 +131,7 @@ desc:"Ultra-high resolution commercial satellite with 0.31m panchromatic and SWI
 {name:"B0",label:"Blue",wl:"430-550nm",gsd:"2m"},{name:"B1",label:"Green",wl:"500-620nm",gsd:"2m"},
 {name:"B2",label:"Red",wl:"590-710nm",gsd:"2m"},{name:"B3",label:"NIR",wl:"740-940nm",gsd:"2m"}],
 spatial:"0.5m Pan / 2m MS",spectral:"5 bands",temporal:"Daily (agile)",radiometric:"12-bit",swath:"20 km",
-pricing:"paid",contact:"https://www.intelligence-airbusds.com/",orbit:"Sun-synchronous (694 km)",stac:[],
+pricing:"paid",pricingDetail:"Archive: ~$15/km² (MOQ 25km²). Tasking: ~$45/km² (MOQ 100km²).",contact:"https://www.intelligence-airbusds.com/",orbit:"Sun-synchronous (694 km)",stac:[],
 indices:["ndvi","savi","gndvi","ndwi"],
 desc:"Very high resolution optical constellation for defense, mapping and urban applications."},
 
@@ -141,7 +141,7 @@ desc:"Very high resolution optical constellation for defense, mapping and urban 
 {name:"B5",label:"RedEdge",wl:"707nm",gsd:"3m"},{name:"B6",label:"Green-II",wl:"547nm",gsd:"3m"},
 {name:"B7",label:"Coastal",wl:"431nm",gsd:"3m"},{name:"B8",label:"Yellow",wl:"593nm",gsd:"3m"}],
 spatial:"3-4m",spectral:"8 bands (SuperDove)",temporal:"Daily",radiometric:"12-bit",swath:"24 km",
-pricing:"paid",contact:"https://www.planet.com/",orbit:"Sun-synchronous (475 km)",
+pricing:"paid",pricingDetail:"Subscription based (starts ~$5,000/yr) or ~$1.80/km² via resellers (MOQ 100km²).",contact:"https://www.planet.com/",orbit:"Sun-synchronous (475 km)",
 stac:[{p:"Planet STAC",u:"https://api.planet.com/compute/ops/stac/v1",c:"PSScene",d:"https://developers.planet.com/docs/apis/stac/"}],
 indices:["ndvi","evi","gndvi","ndwi","savi","ndre"],
 desc:"400+ CubeSat constellation providing daily 3m global coverage."},
@@ -151,7 +151,7 @@ desc:"400+ CubeSat constellation providing daily 3m global coverage."},
 {name:"B0",label:"Blue",wl:"455-525nm",gsd:"6m"},{name:"B1",label:"Green",wl:"530-590nm",gsd:"6m"},
 {name:"B2",label:"Red",wl:"625-695nm",gsd:"6m"},{name:"B3",label:"NIR",wl:"760-890nm",gsd:"6m"}],
 spatial:"1.5m Pan / 6m MS",spectral:"5 bands",temporal:"1-3 days",radiometric:"12-bit",swath:"60 km",
-pricing:"paid",contact:"https://www.intelligence-airbusds.com/",orbit:"Sun-synchronous (694 km)",stac:[],
+pricing:"paid",pricingDetail:"Archive: ~$4.50/km² (MOQ 100km²). Tasking: ~$12/km².",contact:"https://www.intelligence-airbusds.com/",orbit:"Sun-synchronous (694 km)",stac:[],
 indices:["ndvi","savi","gndvi","ndwi"],
 desc:"High-resolution constellation widely used for agriculture, forestry, and urban mapping."},
 
@@ -198,9 +198,23 @@ desc:"First commercial constellation with Red Edge band, pioneering precision ag
 {id:"iceye",name:"ICEYE SAR",operator:"ICEYE",category:"sar",launch:"2018+",status:"Active",dateStart:"2018-01",dateEnd:"Present",bands:[
 {name:"VV",label:"VV Pol",wl:"X-band 3.1cm",gsd:"0.25m"}],
 spatial:"0.25-15m",spectral:"X-band SAR",temporal:"<24h (constellation)",radiometric:"16-bit",swath:"5-100 km",
-pricing:"paid",contact:"https://www.iceye.com/",orbit:"Sun-synchronous (570 km)",stac:[],
-indices:["flood-map","change-det"],
-desc:"World's largest commercial SAR constellation with sub-meter resolution."},
+pricing:"paid",pricingDetail:"Flexible tasking starting at ~$1,200 per capture.",contact:"https://www.iceye.com/",orbit:"Sun-synchronous (570 km)",stac:[],
+indices:["flood-map","ship-detect"],
+desc:"Pioneering SAR smallsat constellation providing high-revisit persistent monitoring."},
+
+{id:"pixxel",name:"Pixxel Shakuntala / TD-2",operator:"Pixxel",category:"hyperspectral",launch:"2022",status:"Active",dateStart:"2022-04",dateEnd:"Present",bands:[
+{name:"HSI",label:"Hyperspectral",wl:"400-2500nm",gsd:"5m-10m"}],
+spatial:"5m (VNIR), 25m (SWIR)",spectral:"150-250 bands",temporal:"Daily (constellation)",radiometric:"12-bit",swath:"30 km",
+pricing:"paid",pricingDetail:"Subscription based or approx. $8 - $12/km².",contact:"https://www.pixxel.space/",orbit:"Sun-synchronous (500 km)",stac:[],
+indices:["ndvi","pri","cri","mcari","rei"],
+desc:"Commercial hyperspectral constellation providing sub-10m resolution for agriculture and mining."},
+
+{id:"blacksky",name:"BlackSky Global",operator:"BlackSky",category:"msi",launch:"2018+",status:"Active",dateStart:"2018-09",dateEnd:"Present",bands:[
+{name:"RGB",label:"True Color",wl:"450-700nm",gsd:"0.9m"},{name:"Pan",label:"Panchromatic",wl:"450-800nm",gsd:"0.9m"}],
+spatial:"0.9m",spectral:"RGB + Pan",temporal:"Hourly (constellation)",radiometric:"11-bit",swath:"30 km",
+pricing:"paid",pricingDetail:"On-demand tasking starting at ~$800 per capture.",contact:"https://www.blacksky.com/",orbit:"Varies (mid-inclination/SSO)",stac:[],
+indices:["ndvi","change-det"],
+desc:"High-revisit constellation optimized for low-latency site monitoring and rapid tasking."},
 
 {id:"goes",name:"GOES-16/17/18",operator:"NOAA/NASA",category:"moderate",launch:"2016/2018/2022",status:"Active",dateStart:"2016-11",dateEnd:"Present",bands:[
 {name:"B1",label:"Blue",wl:"470nm",gsd:"1km"},{name:"B2",label:"Red",wl:"640nm",gsd:"0.5km"},
@@ -416,7 +430,7 @@ desc:"The world's first commercial satellite to provide sub-meter resolution (0.
 {id:"eros-b",name:"EROS-B",operator:"ISI",category:"msi",launch:"2006",status:"Active",dateStart:"2006-04",dateEnd:"Present",bands:[
 {name:"Pan",label:"Pan",wl:"500-900nm",gsd:"0.7m"}],
 spatial:"0.7m",spectral:"Panchromatic only",temporal:"3-4 days",radiometric:"10-bit",swath:"7 km",
-pricing:"paid",contact:"https://www.imagesatintl.com/",orbit:"Sun-synchronous (500 km)",stac:[],
+pricing:"paid",pricingDetail:"Tasking starting at ~$400 - $600 per scene.",contact:"https://www.imagesatintl.com/",orbit:"Sun-synchronous (500 km)",stac:[],
 indices:[],
 desc:"High-resolution commercial panchromatic satellite providing agile tasking for defense and intelligence."},
 

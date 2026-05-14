@@ -41,8 +41,8 @@ const els = {
 
 // State
 let state = {
-  activeSatFilter: 'all',
-  activeIdxFilter: 'all',
+  activeSatFilters: ['all'],
+  activeIdxFilters: ['all'],
   searchQuery: '',
 };
 
@@ -267,55 +267,114 @@ function renderSatFilters() {
     else if (cat.id === 'active') count = SATELLITES.filter(s => s.status.toLowerCase().includes('active')).length;
     else if (cat.id === 'inactive') count = SATELLITES.filter(s => !s.status.toLowerCase().includes('active')).length;
     else count = SATELLITES.filter(s => s.category === cat.id).length;
+    
+    const isActive = state.activeSatFilters.includes(cat.id);
+    
     return `
-      <button class="filter-chip ${state.activeSatFilter === cat.id ? 'active' : ''}" data-id="${cat.id}">
+      <button class="filter-chip ${isActive ? 'active' : ''}" data-id="${cat.id}">
         ${cat.icon} ${cat.label} <span class="count">${count}</span>
+        ${isActive && cat.id !== 'all' ? `
+          <span class="filter-remove" onclick="event.stopPropagation(); removeSatFilter('${cat.id}')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </span>
+        ` : ''}
       </button>
     `;
   }).join('');
 
   els.satFilters.querySelectorAll('.filter-chip').forEach(chip => {
     chip.addEventListener('click', () => {
-      state.activeSatFilter = chip.dataset.id;
+      const id = chip.dataset.id;
+      if (id === 'all') {
+        state.activeSatFilters = ['all'];
+      } else {
+        // If "all" was selected, remove it
+        state.activeSatFilters = state.activeSatFilters.filter(f => f !== 'all');
+        
+        if (state.activeSatFilters.includes(id)) {
+          state.activeSatFilters = state.activeSatFilters.filter(f => f !== id);
+        } else {
+          state.activeSatFilters.push(id);
+        }
+        
+        if (state.activeSatFilters.length === 0) {
+          state.activeSatFilters = ['all'];
+        }
+      }
       renderSatFilters();
       renderSats();
     });
   });
 }
 
+window.removeSatFilter = function(id) {
+  state.activeSatFilters = state.activeSatFilters.filter(f => f !== id);
+  if (state.activeSatFilters.length === 0) state.activeSatFilters = ['all'];
+  renderSatFilters();
+  renderSats();
+};
+
 function renderIdxFilters() {
   els.idxFilters.innerHTML = INDEX_CATEGORIES.map(cat => {
     const count = cat.id === 'all' ? INDICES.length : INDICES.filter(i => i.cat === cat.id).length;
+    const isActive = state.activeIdxFilters.includes(cat.id);
+    
     return `
-      <button class="filter-chip ${state.activeIdxFilter === cat.id ? 'active' : ''}" data-id="${cat.id}">
+      <button class="filter-chip ${isActive ? 'active' : ''}" data-id="${cat.id}">
         ${cat.icon} ${cat.label} <span class="count">${count}</span>
+        ${isActive && cat.id !== 'all' ? `
+          <span class="filter-remove" onclick="event.stopPropagation(); removeIdxFilter('${cat.id}')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </span>
+        ` : ''}
       </button>
     `;
   }).join('');
 
   els.idxFilters.querySelectorAll('.filter-chip').forEach(chip => {
     chip.addEventListener('click', () => {
-      state.activeIdxFilter = chip.dataset.id;
+      const id = chip.dataset.id;
+      if (id === 'all') {
+        state.activeIdxFilters = ['all'];
+      } else {
+        state.activeIdxFilters = state.activeIdxFilters.filter(f => f !== 'all');
+        
+        if (state.activeIdxFilters.includes(id)) {
+          state.activeIdxFilters = state.activeIdxFilters.filter(f => f !== id);
+        } else {
+          state.activeIdxFilters.push(id);
+        }
+        
+        if (state.activeIdxFilters.length === 0) {
+          state.activeIdxFilters = ['all'];
+        }
+      }
       renderIdxFilters();
       renderIndices();
     });
   });
 }
 
+window.removeIdxFilter = function(id) {
+  state.activeIdxFilters = state.activeIdxFilters.filter(f => f !== id);
+  if (state.activeIdxFilters.length === 0) state.activeIdxFilters = ['all'];
+  renderIdxFilters();
+  renderIndices();
+};
+
 // Satellites
 function renderSats() {
   let filtered = SATELLITES;
   
-  if (state.activeSatFilter !== 'all') {
-    if (state.activeSatFilter === 'free' || state.activeSatFilter === 'paid') {
-      filtered = filtered.filter(s => s.pricing === state.activeSatFilter);
-    } else if (state.activeSatFilter === 'active') {
-      filtered = filtered.filter(s => s.status.toLowerCase().includes('active'));
-    } else if (state.activeSatFilter === 'inactive') {
-      filtered = filtered.filter(s => !s.status.toLowerCase().includes('active'));
-    } else {
-      filtered = filtered.filter(s => s.category === state.activeSatFilter);
-    }
+  if (state.activeSatFilters.length > 0 && !state.activeSatFilters.includes('all')) {
+    filtered = filtered.filter(s => {
+      return state.activeSatFilters.some(f => {
+        if (f === 'free' || f === 'paid') return s.pricing === f;
+        if (f === 'active') return s.status.toLowerCase().includes('active');
+        if (f === 'inactive') return !s.status.toLowerCase().includes('active');
+        return s.category === f;
+      });
+    });
   }
   
   if (state.searchQuery) {
@@ -418,6 +477,13 @@ function renderSats() {
              <div class="spec" style="grid-column: span 2"><span class="spec__label">Data Availability</span><span class="spec__value" style="font-size:0.8rem;font-weight:400">${sat.dateStart} to ${sat.dateEnd}</span></div>
           </div>
 
+          ${sat.pricingDetail ? `
+            <div style="margin-bottom: 1rem; padding: 10px; background: rgba(0, 212, 255, 0.05); border-left: 3px solid var(--accent-blue); border-radius: 4px;">
+              <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px; font-weight: 700;">Public Pricing Info</div>
+              <div style="font-size: 0.85rem; color: var(--text-primary); font-weight: 500;">${sat.pricingDetail}</div>
+            </div>
+          ` : ''}
+
           ${sat.contact ? `
             <div style="margin-bottom: 1.5rem;">
               <a href="${sat.contact}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:6px; padding: 6px 12px; background: rgba(0, 212, 255, 0.05); color: var(--accent-blue); border: 1px solid var(--accent-blue); border-radius: 4px; font-size: 0.8rem; text-decoration: none; font-weight: 600;">
@@ -486,8 +552,8 @@ window.toggleSatCard = function(id) {
 function renderIndices() {
   let filtered = INDICES;
   
-  if (state.activeIdxFilter !== 'all') {
-    filtered = filtered.filter(i => i.cat === state.activeIdxFilter);
+  if (state.activeIdxFilters.length > 0 && !state.activeIdxFilters.includes('all')) {
+    filtered = filtered.filter(i => state.activeIdxFilters.includes(i.cat));
   }
   
   if (state.searchQuery) {
