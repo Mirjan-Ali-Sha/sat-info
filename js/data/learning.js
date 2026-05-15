@@ -457,5 +457,105 @@ print(f"Found {len(items)} scenes!")</code></pre>
       <h3>The Power of the 'Signature'</h3>
       <p>Because HSI captures the full curve, you can identify specific minerals (like Kaolinite vs Illite), distinguish between different tree species, or detect plastic pollutants in the ocean that appear identical to multispectral sensors.</p>
     `
+  },
+  {
+    id: "rs-adv-7",
+    title: "Demystifying Spectral Index Constants (L, G, C)",
+    category: "Advanced Processing",
+    level: "Advanced",
+    duration: "15 mins",
+    videoSearch: "Understanding Soil Adjusted Vegetation Index and EVI constants",
+    desc: "Why some vegetation indices require constant values like 'L' or 'G', and how to tune them for your specific environment.",
+    content: `
+      <h3>The Need for Constants</h3>
+      <p>Standard indices like NDVI assume a perfect linear relationship between vegetation and reflectance. In reality, soil background color and atmospheric haze alter this signal. Constants are introduced to 'correct' these interferences.</p>
+      
+      <h3>The 'L' Factor (Canopy Background)</h3>
+      <p>Used in SAVI, EVI, and MSAVI. It adjusts for the brightness of the soil behind the plants.</p>
+      <ul>
+        <li><strong>L = 1.0:</strong> Used for very sparse vegetation (desert, early crop stage).</li>
+        <li><strong>L = 0.5:</strong> The standard default, used for intermediate canopy cover.</li>
+        <li><strong>L = 0.25:</strong> Used for dense, closed canopies (where soil is barely visible).</li>
+      </ul>
+      
+      <h3>The 'G' and 'C' Factors (Atmospheric Resistance)</h3>
+      <p>Used primarily in the Enhanced Vegetation Index (EVI).</p>
+      <ul>
+        <li><strong>G (Gain):</strong> Typically 2.5. It scales the index to prevent saturation.</li>
+        <li><strong>C1 & C2:</strong> Aerosol resistance coefficients (usually 6.0 and 7.5). They use the Blue band to correct for aerosol scattering in the Red band.</li>
+      </ul>
+      
+      <h3>Modern Non-Linear Constants (kNDVI)</h3>
+      <p>The newer Kernel NDVI (kNDVI) uses a length-scale parameter <strong>sigma (σ)</strong>. It determines how 'non-linear' the calculation should be, allowing it to accurately measure biomass in extremely dense jungles where traditional NDVI maxes out at 1.0.</p>
+    `
+  },
+  {
+    id: "rs-basics-4",
+    title: "Nighttime Lights (NTL) Remote Sensing",
+    category: "Remote Sensing Basics",
+    level: "Intermediate",
+    duration: "12 mins",
+    videoSearch: "VIIRS Day Night Band socioeconomic remote sensing",
+    desc: "How sensors like VIIRS use the Day/Night Band to measure human economic activity, urbanization, and disaster impacts from space.",
+    content: `
+      <h3>What is Nighttime Light (NTL) Imaging?</h3>
+      <p>Instead of relying on reflected sunlight, NTL sensors detect artificial light emissions from the Earth's surface during the night. The most prominent instrument today is the VIIRS Day/Night Band (DNB) on the Suomi-NPP and NOAA-20 satellites.</p>
+      
+      <h3>Key Applications</h3>
+      <ul>
+        <li><strong>Economic Proxy:</strong> NTL intensity strongly correlates with GDP and economic growth, allowing economists to estimate activity in data-poor regions.</li>
+        <li><strong>Urbanization:</strong> Tracking the expansion of city footprints over time (e.g., the World Settlement Footprint relies heavily on NTL).</li>
+        <li><strong>Disaster Response:</strong> Comparing pre- and post-disaster NTL images instantly reveals large-scale power outages caused by hurricanes or earthquakes.</li>
+        <li><strong>Conflict Monitoring:</strong> Identifying population displacement and infrastructure destruction in war zones.</li>
+      </ul>
+      
+      <h3>Challenges in NTL Processing</h3>
+      <p>Processing raw VIIRS data is complex because the sensor also picks up moonlight, auroras, fires, and lightning. Scientists must rigorously filter out these 'ephemeral' lights to create stable 'Black Marble' composite products.</p>
+    `
+  },
+  {
+    id: "gis-foundations-2",
+    title: "Raw vs Derived Earth Observation Data",
+    category: "GIS Foundations",
+    level: "Beginner",
+    duration: "10 mins",
+    videoSearch: "Earth observation derived datasets land cover",
+    desc: "Understanding the difference between downloading raw pixel values and utilizing pre-computed analytical datasets.",
+    content: `
+      <h3>Raw / Surface Reflectance Data</h3>
+      <p>Missions like Landsat and Sentinel provide 'raw' data—essentially a photograph consisting of digital numbers that represent reflectance in different wavelengths. To answer a question (e.g., "Where is the water?"), you must calculate indices, set thresholds, and run classifications yourself.</p>
+      
+      <h3>Derived / Thematic Datasets</h3>
+      <p>Derived datasets are pre-processed products created by space agencies or research institutions. They have already converted the raw pixels into actionable classes or physical measurements over a massive scale.</p>
+      
+      <h3>Examples of High-Value Derived Data</h3>
+      <ul>
+        <li><strong>Copernicus Global Land Cover:</strong> A map where every 100m pixel is already classified as 'Forest', 'Urban', 'Cropland', etc.</li>
+        <li><strong>JRC Global Surface Water:</strong> 35 years of Landsat data boiled down to show exactly where water occurs, how often, and how it has changed.</li>
+        <li><strong>SoilGrids:</strong> Machine-learning models applied to global data to estimate the pH, clay content, and organic carbon of the soil at 250m resolution.</li>
+      </ul>
+      
+      <h3>The Paradigm Shift</h3>
+      <p>Modern GIS workflows often rely on combining these derived datasets (e.g., masking your Sentinel-2 NDVI analysis using the Copernicus Forest mask) rather than classifying everything from scratch.</p>
+    `
+  },
+  {
+    id: "rs-phys-3",
+    title: "Beyond Optical: Gravity and Soil Moisture",
+    category: "Advanced Remote Sensing",
+    level: "Advanced",
+    duration: "15 mins",
+    videoSearch: "GRACE satellite gravity SMAP soil moisture explained",
+    desc: "Discover how specialized missions use microwave radiometers and orbital mechanics to measure invisible Earth systems.",
+    content: `
+      <h3>SMAP (Soil Moisture Active Passive)</h3>
+      <p>Optical sensors can only see the surface. To measure how much water is actually <em>in</em> the soil, NASA's SMAP mission uses an L-Band microwave radiometer. Microwaves at this frequency penetrate the top 5cm of the soil, and the signal changes based on the dielectric constant of water.</p>
+      <p><strong>Use Cases:</strong> Crop yield prediction, flood risk modeling, and climate change monitoring.</p>
+      
+      <h3>GRACE-FO (Gravity Recovery and Climate Experiment Follow-On)</h3>
+      <p>GRACE doesn't take pictures at all. Instead, it consists of twin satellites flying in formation, constantly measuring the microscopic distance between each other.</p>
+      <p>As the first satellite passes over a dense mass (like a mountain or a massive underground aquifer), gravity pulls it slightly ahead. By tracking these orbital wobbles, scientists map Earth's gravity field.</p>
+      <p><strong>Use Cases:</strong> Measuring the depletion of underground aquifers (like the California Central Valley) and the melting mass of the Greenland and Antarctic ice sheets.</p>
+    `
   }
 ];
