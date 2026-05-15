@@ -495,14 +495,160 @@ desc:"Pioneering Malaysian satellite placed in a Near-Equatorial Orbit (NEO) to 
 spatial:"2.5m Pan / 10m MS",spectral:"Pan + RGB + NIR",temporal:"3 days",radiometric:"12-bit",swath:"17.5 km",
 pricing:"paid",contact:"https://vast.gov.vn/",orbit:"Sun-synchronous (680 km)",stac:[],
 indices:["ndvi","ndwi"],
-desc:"Vietnam's first optical remote sensing satellite, designed for monitoring environmental resources and natural disasters."}
+desc:"Vietnam's first optical remote sensing satellite, designed for monitoring environmental resources and natural disasters."},
+
+{id:"spot-6-7",name:"SPOT 6/7",operator:"Airbus",category:"msi",launch:"2012/2014",status:"Active",dateStart:"2012-09",dateEnd:"Present",bands:[
+{name:"B0",label:"Blue",wl:"450-520nm",gsd:"6m"},{name:"B1",label:"Green",wl:"530-590nm",gsd:"6m"},
+{name:"B2",label:"Red",wl:"625-695nm",gsd:"6m"},{name:"B3",label:"NIR",wl:"760-890nm",gsd:"6m"},
+{name:"Pan",label:"Pan",wl:"450-745nm",gsd:"1.5m"}],
+spatial:"1.5m (Pan), 6m (MS)",spectral:"4 bands + Pan",temporal:"Daily",radiometric:"12-bit",swath:"60 km",
+pricing:"paid",pricingDetail:"Archive: ~$2.50/km². Tasking: ~$12/km². MOQ: 100km².",contact:"https://www.intelligence-airbusds.com/",orbit:"Sun-synchronous (694 km)",stac:[],
+indices:["ndvi","savi","ndwi","mndwi"],
+desc:"Airbus high-resolution workhorse constellation for systematic global mapping."},
+
+{id:"geoeye-1",name:"GeoEye-1",operator:"Maxar",category:"msi",launch:"2008",status:"Active",dateStart:"2008-09",dateEnd:"Present",bands:[
+{name:"Blue",label:"Blue",wl:"450-510nm",gsd:"1.8m"},{name:"Green",label:"Green",wl:"510-580nm",gsd:"1.8m"},
+{name:"Red",label:"Red",wl:"655-690nm",gsd:"1.8m"},{name:"NIR",label:"NIR",wl:"780-920nm",gsd:"1.8m"},
+{name:"Pan",label:"Pan",wl:"450-800nm",gsd:"0.46m"}],
+spatial:"0.41m (Pan), 1.65m (MS)",spectral:"4 bands + Pan",temporal:"2.1 days",radiometric:"11-bit",swath:"15.3 km",
+pricing:"paid",pricingDetail:"Archive: ~$15/km². Tasking: ~$40/km². MOQ applies.",contact:"https://www.maxar.com/",orbit:"Sun-synchronous (681 km)",stac:[],
+indices:["ndvi","savi","ndwi"],
+desc:"One of the highest resolution commercial satellites, now part of the Maxar constellation."},
+
+{id:"kompsat-3a",name:"Kompsat-3A",operator:"KARI",category:"msi",launch:"2015",status:"Active",dateStart:"2015-03",dateEnd:"Present",bands:[
+{name:"Blue",label:"Blue",wl:"450-520nm",gsd:"2.2m"},{name:"Green",label:"Green",wl:"520-600nm",gsd:"2.2m"},
+{name:"Red",label:"Red",wl:"630-690nm",gsd:"2.2m"},{name:"NIR",label:"NIR",wl:"720-900nm",gsd:"2.2m"},
+{name:"Pan",label:"Pan",wl:"450-900nm",gsd:"0.55m"},{name:"MWIR",label:"MWIR",wl:"3300-5200nm",gsd:"5.5m"}],
+spatial:"0.55m (Pan), 2.2m (MS), 5.5m (MWIR)",spectral:"4 bands + Pan + MWIR",temporal:"Daily",radiometric:"14-bit",swath:"12 km",
+pricing:"paid",pricingDetail:"Archive: ~$8/km². Tasking: ~$25/km².",contact:"https://www.si-imaging.com/",orbit:"Sun-synchronous (528 km)",stac:[],
+indices:["ndvi","savi","ndwi","lst"],
+desc:"Korean VHR mission featuring both high-res optical and Mid-Wave Infrared (MWIR) capabilities."},
+
+{id:"capella",name:"Capella Constellation",operator:"Capella Space",category:"sar",launch:"2020+",status:"Active",dateStart:"2020-08",dateEnd:"Present",bands:[
+{name:"X-band",label:"X-band",wl:"3.1cm",gsd:"0.5m"}],
+spatial:"0.5m - 1.2m",spectral:"X-band SAR",temporal:"Hourly revisit possible",radiometric:"16-bit",swath:"5-100 km",
+pricing:"paid",pricingDetail:"Tasking: ~$2,500 per scene (Spot). Archive: ~$1,000 per scene.",contact:"https://www.capellaspace.com/",orbit:"Varies (Polar/Inclined)",stac:[{p:"Capella Console",u:"https://api.capellaspace.com/v1",c:"capella-stac",d:"https://docs.capellaspace.com/stac-api/"}],
+indices:["rvi-sar","coherence"],
+desc:"High-frequency revisit SAR constellation specializing in 0.5m resolution X-band imagery."},
+
+{id:"umbra",name:"Umbra SAR",operator:"Umbra",category:"sar",launch:"2021+",status:"Active",dateStart:"2021-06",dateEnd:"Present",bands:[
+{name:"X-band",label:"X-band",wl:"3.1cm",gsd:"0.25m"}],
+spatial:"0.25m - 1.0m",spectral:"X-band SAR",temporal:"Variable",radiometric:"16-bit",swath:"4-10 km",
+pricing:"paid",pricingDetail:"Transparent pricing: ~$500 - $2,500 per scene. No MOQs.",contact:"https://umbra.space/",orbit:"Sun-synchronous (515 km)",stac:[],
+indices:["rvi-sar","coherence"],
+desc:"VHR SAR mission offering the highest resolution commercial X-band radar (up to 0.25m)."},
+
+{id:"esa-worldcover",name:"ESA WorldCover 10m",operator:"ESA / Copernicus",category:"derived",launch:"2020",status:"Active",dateStart:"2020-01",dateEnd:"Present",bands:[
+{name:"Map",label:"Land Cover Class",wl:"N/A",gsd:"10m"}],
+spatial:"10m",spectral:"11 Land Cover Classes",temporal:"Annual",radiometric:"8-bit",swath:"Global",
+pricing:"free",orbit:"N/A (Derived Product)",
+stac:[{p:"VITO Terrascope",u:"https://stac.terrascope.be/v1",c:"ESA_WORLDCOVER_10M_2020_V100",d:"https://esa-worldcover.org/"}],
+indices:[],
+desc:"Global land cover product with 10m resolution based on Sentinel-1 and Sentinel-2 data."},
+
+{id:"gfw-forest",name:"Global Forest Watch",operator:"WRI / Google / UMD",category:"derived",launch:"2014",status:"Active",dateStart:"2000-01",dateEnd:"Present",bands:[
+{name:"Loss",label:"Forest Loss",wl:"N/A",gsd:"30m"},{name:"Gain",label:"Forest Gain",wl:"N/A",gsd:"30m"}],
+spatial:"30m",spectral:"Multi-temporal Change",temporal:"Annual",radiometric:"8-bit",swath:"Global",
+pricing:"free",orbit:"N/A (Derived Product)",
+stac:[],
+indices:[],
+desc:"High-resolution forest change detection dataset providing annual forest loss and gain metrics worldwide."},
+
+{id:"neon-aop",name:"NEON Airborne Observatory",operator:"NSF / NEON",category:"derived",launch:"2013",status:"Active",dateStart:"2013-01",dateEnd:"Present",bands:[
+{name:"HSI",label:"Hyperspectral",wl:"380-2510nm",gsd:"1m"},{name:"LiDAR",label:"Point Cloud",wl:"1064nm",gsd:"0.5m"},{name:"RGB",label:"Camera",wl:"Visible",gsd:"0.1m"}],
+spatial:"0.1m - 1.0m",spectral:"426 bands (HSI)",temporal:"Annual (Regional)",radiometric:"14-bit",swath:"Varies",
+pricing:"free",orbit:"Airborne (Twin Otter Aircraft)",
+stac:[],
+indices:["ndvi","pri","ari","lai"],
+desc:"Ultra-high resolution airborne data across the US, combining hyperspectral imaging and LiDAR for ecosystem monitoring."},
+
+{id:"osm-buildings",name:"OSM Global Buildings",operator:"OpenStreetMap Contributors",category:"derived",launch:"2004",status:"Active",dateStart:"2004-01",dateEnd:"Present",bands:[
+{name:"Vector",label:"Building Footprints",wl:"N/A",gsd:"Variable"}],
+spatial:"Variable (Sub-meter)",spectral:"Vector Attributes",temporal:"Crowdsourced / Continuous",radiometric:"N/A",swath:"Global",
+pricing:"free",orbit:"N/A (Crowdsourced)",
+stac:[],
+indices:[],
+desc:"The world's most comprehensive open-source building footprint dataset, updated continuously by millions of volunteers."},
+
+{id:"jrc-water",name:"JRC Global Surface Water",operator:"JRC / EC",category:"derived",launch:"2016",status:"Active",dateStart:"1984-03",dateEnd:"Present",bands:[
+{name:"Occurrence",label:"Water Presence",wl:"N/A",gsd:"30m"},{name:"Recurrence",label:"Water Cycle",wl:"N/A",gsd:"30m"},{name:"Transitions",label:"Surface Change",wl:"N/A",gsd:"30m"}],
+spatial:"30m",spectral:"Multi-decadal Change",temporal:"Monthly / Annual",radiometric:"8-bit",swath:"Global",
+pricing:"free",orbit:"N/A (Landsat Derived)",
+stac:[],
+indices:["ndwi","mndwi"],
+desc:"Maps the spatio-temporal dynamics of global surface water over 35 years using over 4 million Landsat scenes."},
+
+{id:"copernicus-lc",name:"Copernicus Global Land Cover",operator:"ESA / Copernicus",category:"derived",launch:"2015",status:"Active",dateStart:"2015-01",dateEnd:"2019-12",bands:[
+{name:"LC",label:"Land Cover Class",wl:"N/A",gsd:"100m"},{name:"CoverFraction",label:"Vegetation Fraction",wl:"N/A",gsd:"100m"}],
+spatial:"100m",spectral:"23 Land Cover Classes",temporal:"Annual",radiometric:"8-bit",swath:"Global",
+pricing:"free",orbit:"N/A (PROBA-V / Sentinel Derived)",
+stac:[],
+indices:[],
+desc:"A global land cover map at 100m resolution, providing a consistent baseline for environmental and climate modeling."},
+
+{id:"wsf",name:"World Settlement Footprint",abbr:"WSF",operator:"DLR (German Aerospace Center)",category:"derived",launch:"2015",status:"Active",dateStart:"2015-01",dateEnd:"2019-12",bands:[
+{name:"Settlement",label:"Urban Extent",wl:"N/A",gsd:"10m"}],
+spatial:"10m / 30m",spectral:"Binary / Density",temporal:"Episodic",radiometric:"N/A",swath:"Global",
+pricing:"free",orbit:"N/A (Sentinel-1 / Sentinel-2 Derived)",
+stac:[],
+indices:[],
+desc:"The world's most comprehensive dataset on global human settlements, using massive amounts of Sentinel and Landsat data."},
+
+{id:"hydrosheds",name:"HydroSHEDS",operator:"WWF / USGS",category:"derived",launch:"2006",status:"Active",dateStart:"2006-01",dateEnd:"Present",bands:[
+{name:"Drainage",label:"Flow Direction",wl:"N/A",gsd:"90m"},{name:"Basins",label:"Watershed Boundaries",wl:"N/A",gsd:"Vector"}],
+spatial:"90m (3 arc-second)",spectral:"Hydrological Properties",temporal:"Static (v1.0)",radiometric:"N/A",swath:"Global",
+pricing:"free",orbit:"N/A (SRTM Derived)",
+stac:[],
+indices:[],
+desc:"Provides hydrographic information in a consistent and seamless format for regional and global-scale applications."},
+
+{id:"soilgrids",name:"SoilGrids",operator:"ISRIC - World Soil Information",category:"derived",launch:"2014",status:"Active",dateStart:"2014-01",dateEnd:"Present",bands:[
+{name:"pH",label:"Soil Acidity",wl:"N/A",gsd:"250m"},{name:"Carbon",label:"Organic Carbon",wl:"N/A",gsd:"250m"},{name:"Clay",label:"Clay Content",wl:"N/A",gsd:"250m"}],
+spatial:"250m",spectral:"Global Soil Properties",temporal:"Updates every few years",radiometric:"N/A",swath:"Global",
+pricing:"free",orbit:"N/A (Spatial Prediction Model)",
+stac:[],
+indices:[],
+desc:"A system for global digital soil mapping that uses machine learning to map soil properties at 250m resolution worldwide."},
+
+{id:"sentinel-5p",name:"Sentinel-5P (TROPOMI)",operator:"ESA / Copernicus",category:"meteorological",launch:"2017",status:"Active",dateStart:"2017-10",dateEnd:"Present",bands:[
+{name:"NO2",label:"Nitrogen Dioxide",wl:"UV-VIS",gsd:"3.5x5.5km"},{name:"CH4",label:"Methane",wl:"SWIR",gsd:"7x7km"},{name:"CO",label:"Carbon Monoxide",wl:"SWIR",gsd:"7x7km"}],
+spatial:"3.5km - 7km",spectral:"UV-VIS-NIR-SWIR",temporal:"Daily",radiometric:"N/A",swath:"2600km",
+pricing:"free",orbit:"717km, Sun-synchronous",
+stac:[],
+indices:[],
+desc:"The first Copernicus mission dedicated to monitoring our atmosphere, providing high-resolution data on air quality, greenhouse gases, and ozone."},
+
+{id:"viirs-ntl",name:"VIIRS Nighttime Lights",operator:"NASA / NOAA",category:"derived",launch:"2011",status:"Active",dateStart:"2012-01",dateEnd:"Present",bands:[
+{name:"DNB",label:"Day/Night Band",wl:"500-900nm",gsd:"750m"}],
+spatial:"750m",spectral:"Panchromatic (Sensitive)",temporal:"Daily / Monthly",radiometric:"14-bit",swath:"3000km",
+pricing:"free",orbit:"824km, Sun-synchronous",
+stac:[],
+indices:[],
+desc:"Measures global nighttime light emissions, serving as a powerful proxy for economic activity, urbanization, and disaster response."},
+
+{id:"grace-fo",name:"GRACE-FO",operator:"NASA / DLR",category:"meteorological",launch:"2018",status:"Active",dateStart:"2018-05",dateEnd:"Present",bands:[
+{name:"Gravity",label:"Mass Change",wl:"N/A",gsd:"300km"}],
+spatial:"~300km",spectral:"Microwave Ranging",temporal:"Monthly",radiometric:"N/A",swath:"Global",
+pricing:"free",orbit:"490km, Non-synchronous",
+stac:[],
+indices:[],
+desc:"Follow-on mission to the original GRACE, tracking Earth's gravity field to measure changes in groundwater, ice sheets, and sea level."},
+
+{id:"smap",name:"SMAP",abbr:"Soil Moisture Active Passive",operator:"NASA",category:"meteorological",launch:"2015",status:"Active",dateStart:"2015-01",dateEnd:"Present",bands:[
+{name:"L-Band",label:"Soil Moisture",wl:"1.4 GHz",gsd:"9-36km"}],
+spatial:"9km - 36km",spectral:"L-Band Radiometer",temporal:"2-3 Days",radiometric:"N/A",swath:"1000km",
+pricing:"free",orbit:"685km, Sun-synchronous",
+stac:[],
+indices:[],
+desc:"Measures the amount of water in the top 5cm of soil globally, providing critical data for weather forecasting and flood prediction."}
 ];
 
 const SAT_CATEGORIES = [
-{id:"all",label:"All Satellites",icon:"🛰️"},
+{id:"all",label:"All Datasets",icon:"📊"},
 {id:"msi",label:"Multispectral (MSI)",icon:"🌈"},
 {id:"sar",label:"SAR / RADAR",icon:"📡"},
 {id:"hyperspectral",label:"Hyperspectral",icon:"🔬"},
+{id:"derived",label:"Derived & Custom",icon:"🛠️"},
 {id:"moderate",label:"Moderate Resolution",icon:"🌍"},
 {id:"legacy",label:"Legacy / Heritage",icon:"📜"},
 {id:"free",label:"Free + Open Data",icon:"🔓"},

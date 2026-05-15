@@ -358,39 +358,104 @@ final_image = result.compute()</code></pre>
     `
   },
   {
-    id: "gis-dev-6",
-    title: "GIS Performance: Web Workers",
+    id: "rs-adv-5",
+    title: "SAR Polarization: VV, VH, HH, HV Explained",
+    category: "Advanced Remote Sensing",
+    level: "Advanced",
+    duration: "15 mins",
+    videoSearch: "SAR Polarization VV VH HH HV explained",
+    desc: "Understanding the physics of microwave scattering and why cross-polarization (VH/HV) is key for biomass mapping.",
+    content: `
+      <h3>Microwave Physics</h3>
+      <p>SAR sensors transmit pulses in specific planes (Vertical or Horizontal) and receive backscatter in those same or rotated planes. This property, called 'Polarization', reveals the structural orientation of targets on the ground.</p>
+      
+      <h3>Key Polarimetric Modes</h3>
+      <ul>
+        <li><strong>Single-Pol:</strong> Only one combination (e.g., HH or VV). Common in older satellites.</li>
+        <li><strong>Dual-Pol:</strong> One transmit, two receive (e.g., VV and VH). This is the standard mode for Sentinel-1.</li>
+        <li><strong>Full-Pol (Quad-Pol):</strong> Alternating H and V transmit with both H and V receive. Provides the most complete structural information (e.g., RADARSAT-2, ALOS-2).</li>
+      </ul>
+      
+      <h3>Applications by Polarization</h3>
+      <ul>
+        <li><strong>VV:</strong> Best for ocean waves, rough surfaces, and urban areas.</li>
+        <li><strong>VH/HV:</strong> Superior for forest volume scattering and distinguishing crops from bare soil.</li>
+        <li><strong>HH:</strong> Preferred for sea-ice monitoring and calm water detection.</li>
+      </ul>
+    `
+  },
+  {
+    id: "rs-adv-6",
+    title: "Level 1C vs Level 2A: The BOA Transition",
+    category: "Advanced Processing",
+    level: "Intermediate",
+    duration: "12 mins",
+    videoSearch: "Sentinel-2 Level 1C vs Level 2A atmospheric correction",
+    desc: "A guide to understanding processing levels and why Level-2A (Surface Reflectance) is the gold standard for time-series analysis.",
+    content: `
+      <h3>Processing Levels Defined</h3>
+      <p>Satellite data is delivered in 'levels' indicating how much processing has been applied to the raw signal.</p>
+      
+      <h3>Level-1C (TOA)</h3>
+      <p><strong>TOA: Top of Atmosphere.</strong> This is radiometrically and geometrically corrected data, but it still contains the 'haze' of the atmosphere. Reflectance values are affected by smoke, water vapor, and aerosols.</p>
+      
+      <h3>Level-2A (BOA/SR)</h3>
+      <p><strong>BOA: Bottom of Atmosphere (Surface Reflectance).</strong> This data has undergone atmospheric correction. It represents the true reflectance of the ground as if the atmosphere wasn't there.</p>
+      
+      <h3>Why choose Level-2A?</h3>
+      <p>If you want to compare an image from January with an image from July, you <strong>must</strong> use Level-2A. Atmospheric conditions change daily; without correction, your NDVI changes might just be changes in haze, not changes in plant health.</p>
+    `
+  },
+  {
+    id: "gis-dev-7",
+    title: "Mastering the STAC API",
     category: "GIS Development",
     level: "Advanced",
-    duration: "18 mins",
-    videoSearch: "JavaScript Web Workers for heavy data processing tutorial",
-    desc: "How to keep your web map responsive by moving heavy spatial calculations to background threads.",
+    duration: "20 mins",
+    videoSearch: "SpatioTemporal Asset Catalog STAC API tutorial Python",
+    desc: "Stop downloading zip files. Learn how to programmatically search and stream specific satellite scenes using the STAC standard.",
     content: `
-      <h3>The Solution: Web Workers API</h3>
-      <p>Web Workers are a <strong>native browser feature</strong> (not a library) that allows you to run JavaScript in the background. This is crucial for GIS apps because heavy tasks like polygon buffering or coordinate conversion can block the UI thread and make the map 'freeze'.</p>
+      <h3>What is STAC?</h3>
+      <p>The SpatioTemporal Asset Catalog (STAC) is a common language for describing geospatial data. It eliminates the need for mission-specific search APIs.</p>
       
-      <h3>Workflow</h3>
-      <ol>
-        <li><strong>Main Script:</strong> Spawns a worker and sends it a message with data.</li>
-        <li><strong>Worker Script:</strong> Receives data, performs the heavy math, and sends the result back.</li>
-        <li><strong>Main Script:</strong> Receives the result and updates the map.</li>
-      </ol>
-
-      <h3>Code Example</h3>
-      <pre><code>// 1. In your Main JS
-const worker = new Worker('heavy-math-worker.js');
-worker.postMessage({ points: largeGeoJSONData });
-
-worker.onmessage = (e) => {
-    console.log('Calculation complete:', e.data.result);
-    // Add result to map
-};
-
-// 2. In heavy-math-worker.js
-onmessage = (e) => {
-    const result = performExpensiveSpatialCalculation(e.data.points);
-    postMessage({ result });
-};</code></pre>
+      <h3>The STAC Hierarchy</h3>
+      <ul>
+        <li><strong>API:</strong> The search endpoint (e.g., Planetary Computer).</li>
+        <li><strong>Collection:</strong> A group of similar data (e.g., 'sentinel-2-l2a').</li>
+        <li><strong>Item:</strong> A specific scene at a specific time.</li>
+        <li><strong>Asset:</strong> The actual files (e.g., 'red.tif', 'thumbnail.jpg').</li>
+      </ul>
+      
+      <h3>Python Example (pystac-client)</h3>
+      <pre><code>from pystac_client import Client
+      
+catalog = Client.open("https://earth-search.aws.element84.com/v1")
+search = catalog.search(
+    collections=["sentinel-2-l2a"],
+    bbox=[-122, 37, -121, 38],
+    datetime="2023-01-01/2023-12-31"
+)
+items = search.item_collection()
+print(f"Found {len(items)} scenes!")</code></pre>
+    `
+  },
+  {
+    id: "rs-basics-3",
+    title: "Hyperspectral vs Multispectral Imaging",
+    category: "Remote Sensing Basics",
+    level: "Intermediate",
+    duration: "15 mins",
+    videoSearch: "Hyperspectral vs Multispectral remote sensing explained",
+    desc: "Moving beyond RGB + NIR. Understanding the power of contiguous narrow bands for advanced spectroscopy.",
+    content: `
+      <h3>Multispectral (MSI)</h3>
+      <p>Satellites like Sentinel-2 or Landsat capture data in a few (4-13) <strong>wide, discrete bands</strong>. This is like taking a photo with a few colored filters. You can see big differences (Water vs Forest), but you miss subtle chemical details.</p>
+      
+      <h3>Hyperspectral (HSI)</h3>
+      <p>Satellites like EnMAP or PRISMA capture data in hundreds (200+) of <strong>narrow, contiguous bands</strong>. This creates a 'Spectral Cube' where every pixel has a complete, continuous spectrum.</p>
+      
+      <h3>The Power of the 'Signature'</h3>
+      <p>Because HSI captures the full curve, you can identify specific minerals (like Kaolinite vs Illite), distinguish between different tree species, or detect plastic pollutants in the ocean that appear identical to multispectral sensors.</p>
     `
   }
 ];

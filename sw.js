@@ -1,4 +1,4 @@
-const CACHE_NAME = 'satinfo-cache-v39';
+const CACHE_NAME = 'satinfo-cache-v42';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -6,7 +6,7 @@ const ASSETS_TO_CACHE = [
   './js/app.js',
   './js/data/indices.js',
   './js/data/satellites.js',
-  './assets/app-icon.png',
+  './assets/icon.png',
   './manifest.json'
 ];
 

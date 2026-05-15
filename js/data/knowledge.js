@@ -251,5 +251,50 @@ const KNOWLEDGE_BASE = [
         <li><strong>Stenciling:</strong> Use a stencil buffer to explicitly define which layers should mask others.</li>
       </ul>
     `
+  },
+  {
+    id: "qa-rs-6",
+    question: "What is Cloud Masking and which algorithms are commonly used?",
+    category: "Advanced Processing",
+    tags: ["Clouds", "Pre-processing"],
+    answer: `
+      <p><strong>Cloud Masking</strong> is the process of identifying and removing pixels contaminated by clouds and their shadows. This is critical for generating clean time-series data.</p>
+      <p><strong>Common Algorithms:</strong></p>
+      <ul>
+        <li><strong>Fmask (Function of Mask):</strong> The industry standard for Landsat and Sentinel-2. It uses spectral rules and geometric relationships between clouds and shadows.</li>
+        <li><strong>Sen2Cor SCL:</strong> The Scene Classification Layer provided by ESA for Sentinel-2, which categorizes pixels into clouds, shadows, vegetation, and soil.</li>
+        <li><strong>s2cloudless:</strong> A machine learning based approach that is highly effective for Sentinel-2 data.</li>
+      </ul>
+    `
+  },
+  {
+    id: "qa-rs-7",
+    question: "Why is Orthorectification essential for satellite imagery?",
+    category: "Advanced Processing",
+    tags: ["Geometry", "Accuracy"],
+    answer: `
+      <p><strong>Orthorectification</strong> is the process of removing geometric distortions caused by the sensor's viewing angle and, most importantly, <strong>terrain relief</strong>.</p>
+      <p><strong>Why it matters:</strong> In mountainous areas, a raw satellite image 'leans' away from the center. Orthorectification uses a Digital Elevation Model (DEM) to shift every pixel to its true map-coordinate position, ensuring that distances and areas measured on the image are accurate.</p>
+    `
+  },
+  {
+    id: "qa-rs-8",
+    question: "What is Pansharpening and how does it improve resolution?",
+    category: "Remote Sensing Fundamentals",
+    tags: ["Resolution", "Processing"],
+    answer: `
+      <p><strong>Pansharpening</strong> is a technique that merges the high spatial resolution of a <strong>Panchromatic (B&W)</strong> band with the lower spatial resolution of <strong>Multispectral (Color)</strong> bands.</p>
+      <p><strong>The Result:</strong> A high-resolution color image. For example, Landsat 8 has 30m color bands and a 15m Pan band; pansharpening creates a 15m color product. Common methods include <strong>Gram-Schmidt</strong> and <strong>Brovey</strong> transforms.</p>
+    `
+  },
+  {
+    id: "qa-rs-9",
+    question: "How do you handle NDVI saturation in dense vegetation?",
+    category: "Vegetation Analysis",
+    tags: ["NDVI", "Saturation"],
+    answer: `
+      <p><strong>NDVI Saturation</strong> occurs when vegetation is so dense (high Leaf Area Index) that the Red band is almost completely absorbed, causing the NDVI value to plateau (usually around 0.8 - 0.9) even if biomass continues to increase.</p>
+      <p><strong>The Fix:</strong> Switch to indices that are more sensitive to high biomass, such as <strong>EVI</strong> (Enhanced Vegetation Index) or <strong>NDRE</strong> (Normalized Difference Red Edge), which uses the red-edge band to 'see' deeper into the canopy.</p>
+    `
   }
 ];
