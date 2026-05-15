@@ -67,26 +67,12 @@ const bandColors = {
 
 // Initialization
 function init() {
-  // Check Auth First
-  const isAuthenticated = localStorage.getItem('satinfo_auth') === 'true';
   const splash = document.getElementById('splashScreen');
-  const login = document.getElementById('loginScreen');
   
-  if (!isAuthenticated) {
-    // Show login after splash
-    setTimeout(() => {
-      splash.classList.add('hide');
-      login.classList.remove('hide');
-    }, 1500);
-  } else {
-    // Normal flow
-    setTimeout(() => {
-      splash.classList.add('hide');
-      login.classList.add('hide');
-    }, 1500);
-  }
-
-  setupAuth();
+  // Normal flow
+  setTimeout(() => {
+    splash.classList.add('hide');
+  }, 1500);
 
   // Sync satellite indices dynamically from INDICES array
   SATELLITES.forEach(sat => {
@@ -118,38 +104,6 @@ function init() {
   renderKnowledge();
 
   handleHash();
-}
-
-function setupAuth() {
-  const form = document.getElementById('loginForm');
-  const error = document.getElementById('loginError');
-  const login = document.getElementById('loginScreen');
-  const logoutBtn = document.getElementById('logoutBtn');
-
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const user = document.getElementById('loginUser').value;
-      const pass = document.getElementById('loginPass').value;
-
-      if (user === AUTH_CONFIG.USER_NAME && pass === AUTH_CONFIG.PASSWORD) {
-        localStorage.setItem('satinfo_auth', 'true');
-        login.classList.add('hide');
-      } else {
-        error.style.display = 'block';
-        setTimeout(() => error.style.display = 'none', 3000);
-      }
-    });
-  }
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      if (confirm('Are you sure you want to log out?')) {
-        localStorage.removeItem('satinfo_auth');
-        window.location.reload();
-      }
-    });
-  }
 }
 
 // Hash Routing

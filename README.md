@@ -2,7 +2,7 @@
 
 A high-performance, professional-grade Progressive Web Application (PWA) designed for the Earth Observation (EO) community. Explore satellite sensor specifications, discover spectral indices, and access STAC API endpoints with a sleek, dark-mode analytical dashboard.
 
-![App Screenshot](assets/app-icon.png)
+<img src="assets/icon.png" width="180" alt="App Logo">
 
 ## 🚀 Key Features
 
@@ -23,44 +23,20 @@ A high-performance, professional-grade Progressive Web Application (PWA) designe
 
 ## 💻 Local Development
 
-To get started locally:
-
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/your-username/sat-info.git
    cd sat-info
    ```
 
-2. **Setup Local Environment**:
-   Create a `.env` file from the example:
-   ```bash
-   cp .env.example .env
-   ```
-   *Edit `.env` with your desired `USER_NAME` and `PASSWORD`.*
-
-3. **Sync Configuration**:
-   Run the local sync script to apply your credentials:
-   ```bash
-   node local-sync.js
-   ```
-
-4. **Run Locally**:
+2. **Run Locally**:
    ```bash
    npx serve
    ```
 
-## 🌐 Deployment & Security
+## 🌐 Deployment
 
-This project is optimized for deployment on **GitHub Pages**. To secure your live app:
-
-1. Go to your GitHub Repository **Settings** > **Secrets and variables** > **Actions**.
-2. Add the following Repository Secrets:
-   - `USER_NAME`: Your authorized username.
-   - `PASSWORD`: Your secure access password.
-3. Push to `main`. The `static.yml` workflow will automatically:
-   - Inject your secrets into the code.
-   - Clean up development scripts (`local-sync.js`, `.env`).
-   - Deploy the secure PWA to Pages.
+This project is optimized for deployment on **GitHub Pages**. Simply push your changes to the `main` branch, and the automated workflow will deploy the PWA to your site.
 
 ## 👤 Author
 
