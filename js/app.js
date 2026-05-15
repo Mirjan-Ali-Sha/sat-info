@@ -67,6 +67,27 @@ const bandColors = {
 
 // Initialization
 function init() {
+  // Check Auth First
+  const isAuthenticated = localStorage.getItem('satinfo_auth') === 'true';
+  const splash = document.getElementById('splashScreen');
+  const login = document.getElementById('loginScreen');
+  
+  if (!isAuthenticated) {
+    // Show login after splash
+    setTimeout(() => {
+      splash.classList.add('hide');
+      login.classList.remove('hide');
+    }, 1500);
+  } else {
+    // Normal flow
+    setTimeout(() => {
+      splash.classList.add('hide');
+      login.classList.add('hide');
+    }, 1500);
+  }
+
+  setupAuth();
+
   // Sync satellite indices dynamically from INDICES array
   SATELLITES.forEach(sat => {
     if (!sat.indices) sat.indices = [];
@@ -97,6 +118,38 @@ function init() {
   renderKnowledge();
 
   handleHash();
+}
+
+function setupAuth() {
+  const form = document.getElementById('loginForm');
+  const error = document.getElementById('loginError');
+  const login = document.getElementById('loginScreen');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = document.getElementById('loginUser').value;
+      const pass = document.getElementById('loginPass').value;
+
+      if (user === AUTH_CONFIG.USER_NAME && pass === AUTH_CONFIG.PASSWORD) {
+        localStorage.setItem('satinfo_auth', 'true');
+        login.classList.add('hide');
+      } else {
+        error.style.display = 'block';
+        setTimeout(() => error.style.display = 'none', 3000);
+      }
+    });
+  }
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to log out?')) {
+        localStorage.removeItem('satinfo_auth');
+        window.location.reload();
+      }
+    });
+  }
 }
 
 // Hash Routing
@@ -242,6 +295,7 @@ function setupSearch() {
     if(els.headerSearchInput) els.headerSearchInput.value = e.target.value;
     renderSats();
     renderIndices();
+    renderCrossReference();
     renderLearning();
     renderKnowledge();
   });
@@ -252,6 +306,7 @@ function setupSearch() {
       els.searchInput.value = e.target.value;
       renderSats();
       renderIndices();
+      renderCrossReference();
       renderLearning();
       renderKnowledge();
     });
@@ -538,7 +593,7 @@ window.toggleSatCard = function(id) {
   if (isExpanded) {
     card.classList.remove('expanded');
     if (window.location.hash === '#sat=' + id) {
-      window.location.hash = '';
+      history.replaceState(null, null, window.location.pathname + window.location.search + '#datasets');
     }
   } else {
     // Optionally close others
@@ -592,7 +647,7 @@ function setupModal() {
   const closeModal = () => {
     els.modal.classList.remove('active');
     if (window.location.hash.startsWith('#index=')) {
-      window.location.hash = '';
+      history.replaceState(null, null, window.location.pathname + window.location.search + '#indices');
     }
   };
   els.modalClose.addEventListener('click', closeModal);
@@ -673,7 +728,13 @@ window.openIndexModal = function(id, skipHash = false) {
 // Cross Reference
 function renderCrossReference() {
   const categories = INDEX_CATEGORIES.filter(c => c.id !== 'all');
+  const query = state.searchQuery.toLowerCase();
   
+  const filteredSats = SATELLITES.filter(s => 
+    s.name.toLowerCase().includes(query) || 
+    s.operator.toLowerCase().includes(query)
+  );
+
   // Header
   els.xrefHead.innerHTML = `
     <tr>
@@ -682,14 +743,19 @@ function renderCrossReference() {
     </tr>
   `;
 
+  if (filteredSats.length === 0) {
+    els.xrefBody.innerHTML = `<tr><td colspan="${categories.length + 1}" style="text-align:center; padding:20px; color:var(--text-muted)">No satellites found matching "${state.searchQuery}"</td></tr>`;
+    return;
+  }
+
   // Body
-  els.xrefBody.innerHTML = SATELLITES.map(sat => {
+  els.xrefBody.innerHTML = filteredSats.map(sat => {
     // For each category, see if the satellite has an index in that category
     const catChecks = categories.map(cat => {
       const satIndices = sat.indices || [];
       // Find indices that match both this satellite and this category
       const hasIndex = INDICES.some(idx => 
-        idx.cat === cat.id && satIndices.includes(idx.id)
+      idx.cat === cat.id && satIndices.includes(idx.id)
       );
       
       return `<td>${hasIndex ? '<span class="xref-check">●</span>' : '<span class="xref-none">-</span>'}</td>`;
